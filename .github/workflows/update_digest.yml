@@ -1,0 +1,45 @@
+name: Monthly Knowledge Base Auto-Digest Update
+
+on:
+  schedule:
+    # Runs on the 1st of every month at 00:00 UTC
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+    # Allows manual execution from the GitHub Actions tab anytime
+
+permissions:
+  contents: write
+
+jobs:
+  update-digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: 🤖 Run IndoBERT & Digest Pipeline
+        run: |
+          if [ -f scripts/01_parse_threads.py ]; then python3 scripts/01_parse_threads.py; fi
+          if [ -f scripts/02_indobert_cluster.py ]; then python3 scripts/02_indobert_cluster.py; fi
+          if [ -f scripts/03_synthesize_kb.py ]; then python3 scripts/03_synthesize_kb.py; fi
+          if [ -f scripts/04_build_portal.py ]; then python3 scripts/04_build_portal.py; fi
+
+      - name: 🚀 Commit & Push Updated Portal
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(auto-digest): Monthly Knowledge Base update via IndoBERT [skip ci]"
+          file_pattern: "index.html qgis-logo.svg support.js output/"
