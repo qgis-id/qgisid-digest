@@ -58,8 +58,8 @@
     </nav>
 
     <div style="display:flex;align-items:center;gap:12px">
-      <a href="#troubleshooting" style="background:none;border:1px solid rgba(0,32,51,.15);color:#002033;padding:9px 16px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer;text-decoration:none">🛠️ Troubleshooting</a>
-      <a href="#" style="background:#002033;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">Gabung Telegram</a>
+      <button style="background:none;border:1px solid rgba(0,32,51,.15);color:#002033;padding:9px 16px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer" onClick="{{ openArchive }}">Cari Digest</button>
+      <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="background:#002033;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">Gabung Telegram</a>
     </div>
   </header>
 
@@ -84,7 +84,7 @@
 
         <div style="display:flex;gap:16px;margin-top:28px">
           <button style="background:#93b023;color:#002033;border:none;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer" onClick="{{ openArchive }}">Yuk, Lihat Arsip Digest →</button>
-          <a href="#" style="border:1px solid rgba(255,255,255,.4);color:#fff;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:600">Gabung Ngobrol di Telegram</a>
+          <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="border:1px solid rgba(255,255,255,.4);color:#fff;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:600">Gabung Ngobrol di Telegram</a>
         </div>
       </div>
     </section>
@@ -137,9 +137,6 @@
           <span style="background:#eef3e4;color:#3f6f22;padding:3px 8px;border-radius:4px;font-weight:700">Highlight {{ activeYearData.year }}</span>
           <span>{{ activeYearData.highlight }}</span>
         </div>
-        <div style="margin-top:10px;font-size:12px;color:#93a29a;line-height:1.5">
-          Catatan: grafik menampilkan {{ yearTopicsShown }} topik teratas tahun {{ activeYearData.year }}, sehingga persentasenya tidak berjumlah 100%. Sisanya tersebar di kategori lain.
-        </div>
       </div>
     </section>
 
@@ -175,63 +172,6 @@
       </div>
     </section>
 
-    <!-- 🛠️ MASTER TROUBLESHOOTING TABLE (ringkasan semua masalah) -->
-    <section id="troubleshooting" style="max-width:1100px;margin:0 auto;padding:24px 48px 24px">
-      <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;padding:36px;box-shadow:0 8px 24px rgba(0,32,51,.05)">
-
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:8px">
-          <div>
-            <span style="font-size:12px;font-weight:700;letter-spacing:1px;color:#4a7d29;text-transform:uppercase">Ringkasan Lintas Kategori</span>
-            <h3 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:4px 0 0">🛠️ Masalah Umum &amp; Solusi Teknis (Troubleshooting)</h3>
-          </div>
-          <input type="text" placeholder="Cari masalah, penyebab, atau solusi…" value="{{ tsQuery }}" onChange="{{ onTsQueryChange }}" style="padding:10px 14px;border:1px solid rgba(0,32,51,.15);border-radius:8px;font-size:14px;font-family:inherit;width:280px" />
-        </div>
-
-        <p style="font-size:14.5px;color:#4a5a53;margin:0 0 20px;line-height:1.6">
-          Seluruh <strong>{{ tsTotal }} masalah</strong> yang terdokumentasi dari <strong>{{ tsCatCount }} kategori domain</strong>, dirangkum dalam satu tabel. Menampilkan <strong>{{ tsShown }}</strong> baris.
-        </p>
-
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px">
-          <sc-for list="{{ tsChips }}" as="tc" hint-placeholder-count="5">
-            <sc-if value="{{ tc.active }}" hint-placeholder-val="{{ false }}">
-              <button style="background:#3f6f22;color:#fff;border:none;padding:7px 14px;border-radius:20px;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer" onClick="{{ tc.select }}">{{ tc.name }} ({{ tc.count }})</button>
-            </sc-if>
-            <sc-if value="{{ tc.inactive }}" hint-placeholder-val="{{ true }}">
-              <button style="background:#fff;color:#45534d;border:1px solid rgba(0,32,51,.15);padding:7px 14px;border-radius:20px;font-size:12.5px;font-family:inherit;cursor:pointer" onClick="{{ tc.select }}">{{ tc.name }} ({{ tc.count }})</button>
-            </sc-if>
-          </sc-for>
-        </div>
-
-        <div style="overflow-x:auto">
-          <div style="min-width:880px;font-size:14px">
-            <div style="display:grid;grid-template-columns:17% 24% 26% 33%;background:#eef3e4;color:#3f6f22;border-bottom:2px solid rgba(63,111,34,.2);font-weight:700">
-              <div style="padding:12px 14px">Kategori Domain</div>
-              <div style="padding:12px 14px">Masalah / Gejala Utama</div>
-              <div style="padding:12px 14px">Akar Penyebab (Root Cause)</div>
-              <div style="padding:12px 14px">Solusi &amp; Langkah Perbaikan Teknis</div>
-            </div>
-            <sc-for list="{{ tsRows }}" as="ts" hint-placeholder-count="6">
-              <div style="display:grid;grid-template-columns:17% 24% 26% 33%;border-bottom:1px solid rgba(0,32,51,.06);cursor:pointer" onClick="{{ ts.open }}">
-                <div style="padding:12px 14px;font-size:12.5px;color:#3f6f22;font-weight:600">{{ ts.catShort }}</div>
-                <div style="padding:12px 14px;font-weight:700;color:#002033">{{ ts.prob }}</div>
-                <div style="padding:12px 14px;color:#4a5a53">{{ ts.cause }}</div>
-                <div style="padding:12px 14px;color:#16232b">{{ ts.sol }}</div>
-              </div>
-            </sc-for>
-          </div>
-        </div>
-
-        <sc-if value="{{ tsEmpty }}" hint-placeholder-val="{{ false }}">
-          <div style="text-align:center;padding:48px 20px;color:#75857d;font-size:15px">Tidak ada masalah yang cocok dengan pencarian itu. Coba kata kunci lain, ya!</div>
-        </sc-if>
-
-        <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,32,51,.06);font-size:12.5px;color:#93a29a;line-height:1.5">
-          Klik baris mana pun untuk membuka digest kategorinya. Tabel ini dirakit langsung dari data troubleshooting tiap kategori, jadi setiap penambahan digest otomatis ikut terangkum di sini.
-        </div>
-
-      </div>
-    </section>
-
     <!-- GRID 10 KATEGORI -->
     <section style="max-width:1100px;margin:0 auto;padding:24px 48px 64px">
       <h3 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:0 0 6px">Ngobrolin Apa Aja?</h3>
@@ -240,8 +180,7 @@
         <sc-for list="{{ topicTiles }}" as="tp" hint-placeholder-count="6">
           <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-top:4px solid #4a7d29;border-radius:12px;padding:22px;cursor:pointer" onClick="{{ tp.open }}">
             <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:16px;color:#002033;margin-bottom:6px">{{ tp.name }}</div>
-            <div style="font-size:13px;color:#75857d;margin-bottom:8px">{{ tp.count }} thread terkluster</div>
-            <div style="font-size:11.5px;color:#93a29a">{{ tp.tags }}</div>
+            <div style="font-size:13px;color:#75857d">{{ tp.count }} digest</div>
           </div>
         </sc-for>
       </div>
@@ -312,36 +251,37 @@
     <div style="display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start">
       <div>
         <!-- 📌 Section 1: Ringkasan & Gambaran Topik -->
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-left:4px solid #3f6f22;border-radius:12px;padding:24px;margin-bottom:32px;box-shadow:0 4px 12px rgba(0,0,0,.02)">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-left:4px solid #3f6f22;border-radius:12px;padding:24px;margin-bottom:32px shadow:0 4px 12px rgba(0,0,0,.02)">
           <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:10px">📌 Ringkasan &amp; Gambaran Topik</div>
           <p style="font-size:15px;line-height:1.7;color:#4a5a53;margin:0">{{ activeDigest.excerpt }}</p>
         </div>
 
         <!-- 🛠️ Section 2: Masalah Umum & Solusi Teknis (Troubleshooting Table) -->
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;overflow-x:auto;box-shadow:0 4px 12px rgba(0,0,0,.02)">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;overflow-x:auto shadow:0 4px 12px rgba(0,0,0,.02)">
           <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">🛠️ Masalah Umum &amp; Solusi Teknis (Troubleshooting)</div>
-          <div style="overflow-x:auto">
-            <div style="min-width:680px;font-size:14px">
-              <div style="display:grid;grid-template-columns:30% 32% 38%;background:#eef3e4;color:#3f6f22;border-bottom:2px solid rgba(63,111,34,.2);font-weight:700">
-                <div style="padding:12px 14px">Masalah / Gejala Utama</div>
-                <div style="padding:12px 14px">Akar Penyebab (Root Cause)</div>
-                <div style="padding:12px 14px">Solusi &amp; Langkah Perbaikan Teknis</div>
-              </div>
+          <table style="width:100%;border-collapse:collapse;text-align:left;font-size:14px">
+            <thead>
+              <tr style="background:#eef3e4;color:#3f6f22;border-bottom:2px solid rgba(63,111,34,.2)">
+                <th style="padding:12px 14px;font-weight:700;width:30%">Masalah / Gejala Utama</th>
+                <th style="padding:12px 14px;font-weight:700;width:32%">Akar Penyebab (Root Cause)</th>
+                <th style="padding:12px 14px;font-weight:700;width:38%">Solusi &amp; Langkah Perbaikan Teknis</th>
+              </tr>
+            </thead>
+            <tbody>
               <sc-for list="{{ activeDigest.troubleshooting }}" as="tb" hint-placeholder-count="3">
-                <div style="display:grid;grid-template-columns:30% 32% 38%;border-bottom:1px solid rgba(0,32,51,.06)">
-                  <div style="padding:12px 14px;font-weight:700;color:#002033">{{ tb.prob }}</div>
-                  <div style="padding:12px 14px;color:#4a5a53">{{ tb.cause }}</div>
-                  <div style="padding:12px 14px;color:#16232b">{{ tb.sol }}</div>
-                </div>
+                <tr style="border-bottom:1px solid rgba(0,32,51,.06)">
+                  <td style="padding:12px 14px;font-weight:700;color:#002033">{{ tb.prob }}</td>
+                  <td style="padding:12px 14px;color:#4a5a53">{{ tb.cause }}</td>
+                  <td style="padding:12px 14px;color:#16232b">{{ tb.sol }}</td>
+                </tr>
               </sc-for>
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
 
         <!-- 💡 Section 3: Alur Kerja & Best Practices Komunitas -->
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;box-shadow:0 4px 12px rgba(0,0,0,.02)">
-          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">💡 Alur Kerja &amp; Best Practices Umum Komunitas</div>
-          <p style="font-size:12.5px;color:#93a29a;margin:0 0 14px;line-height:1.5">Berlaku lintas kategori — bukan spesifik untuk digest ini.</p>
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px shadow:0 4px 12px rgba(0,0,0,.02)">
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">💡 Alur Kerja &amp; Best Practices Komunitas</div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <div style="background:#f5f7f0;border-radius:8px;padding:16px">
               <strong style="color:#3f6f22;font-size:15px">1. Pemeriksaan Awal &amp; Standardisasi Data:</strong>
@@ -389,19 +329,9 @@
           </sc-for>
         </div>
 
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:20px">
-          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#75857d;text-transform:uppercase;margin-bottom:12px">Sumber &amp; Rujukan</div>
-          <sc-for list="{{ activeDigest.resources }}" as="rs" hint-placeholder-count="2">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-              <span style="background:#eef3e4;color:#3f6f22;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;flex:none">{{ rs.type }}</span>
-              <span style="font-size:13px;color:#16232b;line-height:1.4">{{ rs.label }}</span>
-            </div>
-          </sc-for>
-        </div>
-
         <div style="background:#002033;border-radius:12px;padding:22px;color:#fff">
           <div style="font-size:15px;font-weight:700;margin-bottom:14px">Ingin berdiskusi lebih lanjut?</div>
-          <a href="#" style="display:block;text-align:center;background:#93b023;color:#002033;padding:11px;border-radius:8px;font-size:13.5px;font-weight:700">Gabung Telegram QGISID</a>
+          <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;background:#93b023;color:#002033;padding:11px;border-radius:8px;font-size:13.5px;font-weight:700">Gabung Telegram QGISID</a>
         </div>
       </div>
     </div>
@@ -415,7 +345,7 @@
       <div style="font-size:12.5px;max-width:480px;line-height:1.6">Dikelola oleh Komunitas Pengguna QGIS Indonesia. Text representation &amp; domain clustering powered by <strong>IndoBERT</strong> (IndoNLU / IndoBenchmark). Bukan bagian resmi dari proyek QGIS.org.</div>
     </div>
     <div style="display:flex;gap:28px;font-size:13px;align-items:flex-start">
-      <a href="#" style="color:rgba(255,255,255,.65)">Grup Telegram</a>
+      <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.65)">Grup Telegram</a>
       <a href="https://github.com/indonlu/indobert" target="_blank" style="color:rgba(255,255,255,.65)">IndoBERT GitHub</a>
       <a href="https://qgis.org" target="_blank" style="color:rgba(255,255,255,.65)">qgis.org</a>
     </div>
@@ -424,14 +354,14 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;defaultScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;home&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;list&quot;,&quot;detail&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;archiveLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;list&quot;,&quot;options&quot;:[&quot;list&quot;,&quot;grid&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;showHeroStats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;list&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;list&quot;,&quot;detail&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;archiveLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;list&quot;,&quot;options&quot;:[&quot;list&quot;,&quot;grid&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;showHeroStats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
 class Component extends DCLogic {
   digests = [
   {
     "id": "d1",
     "dateLabel": "Edisi CRS & Proyeksi Koordinat Spasial",
     "title": "CRS & Proyeksi Koordinat Spasial",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 289 thread diskusi aktif yang berfokus pada CRS & Proyeksi Koordinat Spasial.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **289 thread diskusi aktif** yang berfokus pada **CRS & Proyeksi Koordinat Spasial**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Proyeksi",
       "UTM",
@@ -456,7 +386,7 @@ class Component extends DCLogic {
       {
         "prob": "Data bergeser atau tidak menumpuk presisi",
         "cause": "Layer menggunakan CRS geografis (WGS84) sementara project di UTM",
-        "sol": "Lakukan Reproject Layer (Vector -> Data Management Tools -> Reproject Layer) ke zona UTM lokal (misal EPSG 32748/32749)."
+        "sol": "Lakukan *Reproject Layer* (Vector -> Data Management Tools -> Reproject Layer) ke zona UTM lokal (misal EPSG 32748/32749)."
       },
       {
         "prob": "Error kalkulasi luas (Area = 0 atau derajat persegi)",
@@ -466,7 +396,7 @@ class Component extends DCLogic {
       {
         "prob": "Google Satellite / OSM Basemap bertumpuk aneh",
         "cause": "Project CRS belum di-set ke Pseudo-Mercator (EPSG:3857)",
-        "sol": "Klik ikon CRS di sudut kanan bawah QGIS, aktifkan On-The-Fly (OTF) Reprojection dan atur CRS Project ke EPSG:3857."
+        "sol": "Klik ikon CRS di sudut kanan bawah QGIS, aktifkan *On-The-Fly (OTF) Reprojection* dan atur CRS Project ke EPSG:3857."
       }
     ],
     "quotes": [
@@ -491,7 +421,7 @@ class Component extends DCLogic {
     "id": "d2",
     "dateLabel": "Edisi Pengolahan Data Vektor & Tabel Atribut",
     "title": "Pengolahan Data Vektor & Tabel Atribut",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 717 thread diskusi aktif yang berfokus pada Pengolahan Data Vektor & Tabel Atribut.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **717 thread diskusi aktif** yang berfokus pada **Pengolahan Data Vektor & Tabel Atribut**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Vektor",
       "GeoPackage",
@@ -516,7 +446,7 @@ class Component extends DCLogic {
       {
         "prob": "File SHP lambat dibuka atau corrupt",
         "cause": "Ukuran SHP melampaui batas 2GB per file DBF",
-        "sol": "Migrasi seluruh data vektor dari ESRI Shapefile (.shp) ke format GeoPackage (.gpkg)."
+        "sol": "Migrasi seluruh data vektor dari ESRI Shapefile (.shp) ke format **GeoPackage (.gpkg)**."
       },
       {
         "prob": "Gagal gabungkan tabel (Join Attribute Error)",
@@ -525,8 +455,8 @@ class Component extends DCLogic {
       },
       {
         "prob": "Geometri invalid / Poligon bocor saat Buffer / Union",
-        "cause": "Terdapat self-intersection atau vertex ganda pada poligon",
-        "sol": "Jalankan tool Fix Geometries di Processing Toolbox sebelum melakukan geoprocessing."
+        "cause": "Terdapat *self-intersection* atau vertex ganda pada poligon",
+        "sol": "Jalankan tool *Fix Geometries* di Processing Toolbox sebelum melakukan geoprocessing."
       }
     ],
     "quotes": [
@@ -551,7 +481,7 @@ class Component extends DCLogic {
     "id": "d3",
     "dateLabel": "Edisi Pengolahan Data Raster & Penginderaan Jauh",
     "title": "Pengolahan Data Raster & Penginderaan Jauh",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 501 thread diskusi aktif yang berfokus pada Pengolahan Data Raster & Penginderaan Jauh.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **501 thread diskusi aktif** yang berfokus pada **Pengolahan Data Raster & Penginderaan Jauh**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Raster",
       "DEM",
@@ -576,12 +506,12 @@ class Component extends DCLogic {
       {
         "prob": "Citra Satelit tampak hitam-putih / kontras jelek",
         "cause": "Histogram citra belum di-stretch secara otomatis",
-        "sol": "Buka Layer Properties -> Symbology, ubah Stretch to MinMax dan sesuaikan cumulative count cut (2%-98%)."
+        "sol": "Buka *Layer Properties -> Symbology*, ubah Stretch to MinMax dan sesuaikan cumulative count cut (2%-98%)."
       },
       {
         "prob": "Proses interpolasi DEM (Contour/Hillshade) sangat lama",
         "cause": "Resolusi raster terlalu tinggi untuk area studi luas",
-        "sol": "Lakukan Clipping Raster sesuai Boundary AOI dan jalankan Resample Raster sebelum kalkulasi kontur."
+        "sol": "Lakukan *Clipping Raster* sesuai Boundary AOI dan jalankan *Resample Raster* sebelum kalkulasi kontur."
       },
       {
         "prob": "Nilai indeks vegetasi (NDVI) di luar rentang -1 s/d 1",
@@ -611,7 +541,7 @@ class Component extends DCLogic {
     "id": "d4",
     "dateLabel": "Edisi Plugin & Ekstensi Populer QGIS",
     "title": "Plugin & Ekstensi Populer QGIS",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 381 thread diskusi aktif yang berfokus pada Plugin & Ekstensi Populer QGIS.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **381 thread diskusi aktif** yang berfokus pada **Plugin & Ekstensi Populer QGIS**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Plugin",
       "QuickMapServices",
@@ -636,7 +566,7 @@ class Component extends DCLogic {
       {
         "prob": "Basemap QuickMapServices tidak muncul / error 403",
         "cause": "URL tileset basemap out-of-date atau diblokir provider",
-        "sol": "Buka Plugins -> QuickMapServices -> Settings -> More services -> Get contributed pack untuk update endpoint."
+        "sol": "Buka *Plugins -> QuickMapServices -> Settings -> More services -> Get contributed pack* untuk update endpoint."
       },
       {
         "prob": "Semi-Automatic Classification Plugin (SCP) crash saat clip",
@@ -671,7 +601,7 @@ class Component extends DCLogic {
     "id": "d5",
     "dateLabel": "Edisi PyQGIS, Scripting & Otomasi Process",
     "title": "PyQGIS, Scripting & Otomasi Process",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 160 thread diskusi aktif yang berfokus pada PyQGIS, Scripting & Otomasi Process.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **160 thread diskusi aktif** yang berfokus pada **PyQGIS, Scripting & Otomasi Process**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "PyQGIS",
       "Python",
@@ -731,7 +661,7 @@ class Component extends DCLogic {
     "id": "d6",
     "dateLabel": "Edisi Database Spasial PostgreSQL / PostGIS",
     "title": "Database Spasial PostgreSQL / PostGIS",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 104 thread diskusi aktif yang berfokus pada Database Spasial PostgreSQL / PostGIS.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **104 thread diskusi aktif** yang berfokus pada **Database Spasial PostgreSQL / PostGIS**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "PostGIS",
       "SQL",
@@ -791,7 +721,7 @@ class Component extends DCLogic {
     "id": "d7",
     "dateLabel": "Edisi WebGIS, QGIS Server & Publisher",
     "title": "WebGIS, QGIS Server & Publisher",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 147 thread diskusi aktif yang berfokus pada WebGIS, QGIS Server & Publisher.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **147 thread diskusi aktif** yang berfokus pada **WebGIS, QGIS Server & Publisher**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "WebGIS",
       "QGIS Server",
@@ -851,7 +781,7 @@ class Component extends DCLogic {
     "id": "d8",
     "dateLabel": "Edisi Print Layout, Kartografi & Pembuatan Peta",
     "title": "Print Layout, Kartografi & Pembuatan Peta",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 180 thread diskusi aktif yang berfokus pada Print Layout, Kartografi & Pembuatan Peta.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **180 thread diskusi aktif** yang berfokus pada **Print Layout, Kartografi & Pembuatan Peta**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Print Layout",
       "Atlas",
@@ -876,17 +806,17 @@ class Component extends DCLogic {
       {
         "prob": "Output Peta PDF pecah atau teks terpotong",
         "cause": "Preset DPI export terlalu rendah / font tidak ter-embed",
-        "sol": "Atur Export Resolution minimal 300 DPI di Layout Properties dan centang Always export text as paths."
+        "sol": "Atur *Export Resolution* minimal 300 DPI di Layout Properties dan centang *Always export text as paths*."
       },
       {
         "prob": "Atlas Print Layout tidak berganti halaman otomatis",
         "cause": "Coverage Layer belum dipilih / attribute ID tidak unik",
-        "sol": "Buka panel Atlas Properties, pilih Coverage Layer yang tepat dan tentukan Page Name berdasarkan kolom ID/Nama."
+        "sol": "Buka panel *Atlas Properties*, pilih Coverage Layer yang tepat dan tentukan Page Name berdasarkan kolom ID/Nama."
       },
       {
         "prob": "Legenda Peta menampilkan item layer yang tersembunyi",
-        "cause": "Option Only show items inside current atlas feature belum aktif",
-        "sol": "Centang kotak Only show items inside current atlas feature / Show items inside main map pada Legend Properties."
+        "cause": "Option *Only show items inside current atlas feature* belum aktif",
+        "sol": "Centang kotak *Only show items inside current atlas feature* / *Show items inside main map* pada Legend Properties."
       }
     ],
     "quotes": [
@@ -911,7 +841,7 @@ class Component extends DCLogic {
     "id": "d9",
     "dateLabel": "Edisi Instalasi, Hardware & Troubleshooting Crash",
     "title": "Instalasi, Hardware & Troubleshooting Crash",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 418 thread diskusi aktif yang berfokus pada Instalasi, Hardware & Troubleshooting Crash.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **418 thread diskusi aktif** yang berfokus pada **Instalasi, Hardware & Troubleshooting Crash**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Instalasi",
       "Crash Dump",
@@ -936,7 +866,7 @@ class Component extends DCLogic {
       {
         "prob": "QGIS crash tiba-tiba saat buka file besar (Crash Dump)",
         "cause": "RAM menipis atau GPU Hardware Acceleration bentrok dengan driver",
-        "sol": "Matikan Render in parallelizing di Settings -> Options -> Rendering dan alokasikan Virtual Memory OS."
+        "sol": "Matikan *Render in parallelizing* di *Settings -> Options -> Rendering* dan alokasikan Virtual Memory OS."
       },
       {
         "prob": "Error `GDAL_DATA environment variable not set`",
@@ -945,7 +875,7 @@ class Component extends DCLogic {
       },
       {
         "prob": "Gagal update QGIS ke versi LTR terbaru",
-        "cause": "File instalasi lama masih mengunci `.dll` di folder C:\\Program Files",
+        "cause": "File instalasi lama masih mengunci `.dll` di folder C:\Program Files",
         "sol": "Lakukan uninstall versi lama secara bersih, reboot komputer, lalu jalankan installer QGIS Standalone LTR."
       }
     ],
@@ -971,7 +901,7 @@ class Component extends DCLogic {
     "id": "d10",
     "dateLabel": "Edisi Topik Umum & Best Practices Komunitas",
     "title": "Topik Umum & Best Practices Komunitas",
-    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 3435 thread diskusi aktif yang berfokus pada Topik Umum & Best Practices Komunitas.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan **3435 thread diskusi aktif** yang berfokus pada **Topik Umum & Best Practices Komunitas**.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
     "topics": [
       "Workflow",
       "QGIS LTR",
@@ -996,17 +926,17 @@ class Component extends DCLogic {
       {
         "prob": "Pilih QGIS Standalone atau OSGeo4W Installer?",
         "cause": "Kebingungan memilih installer QGIS yang tepat di Windows",
-        "sol": "Gunakan Standalone Installer LTR untuk pengguna umum. Gunakan OSGeo4W jika membutuhkan paket lanjutan (GRASS, SAGA, GDAL CLI)."
+        "sol": "Gunakan **Standalone Installer LTR** untuk pengguna umum. Gunakan **OSGeo4W** jika membutuhkan paket lanjutan (GRASS, SAGA, GDAL CLI)."
       },
       {
         "prob": "Bagaimana cara membuat backup profil QGIS?",
         "cause": "Khawatir kehilangan konfigurasi plugin & style saat upgrade QGIS",
-        "sol": "Buka menu Settings -> User Profiles -> Open Active Profile Folder, lalu salin folder `default` ke lokasi cadangan."
+        "sol": "Buka menu *Settings -> User Profiles -> Open Active Profile Folder*, lalu salin folder `default` ke lokasi cadangan."
       },
       {
         "prob": "Format file geospasial terbaik untuk kolaborasi tim?",
         "cause": "Kerap terjadi loss data saat kirim file SHP antar anggota tim",
-        "sol": "Gunakan GeoPackage (.gpkg) karena menyimpan multiple layer, tabel atribut, dan styling peta dalam 1 file tunggal."
+        "sol": "Gunakan **GeoPackage (.gpkg)** karena menyimpan multiple layer, tabel atribut, dan styling peta dalam 1 file tunggal."
       }
     ],
     "quotes": [
@@ -1035,7 +965,7 @@ class Component extends DCLogic {
     "total": 327,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 200,
         "pct": 61.2
       },
@@ -1062,7 +992,7 @@ class Component extends DCLogic {
     "total": 1955,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 1039,
         "pct": 53.1
       },
@@ -1089,7 +1019,7 @@ class Component extends DCLogic {
     "total": 1882,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 1010,
         "pct": 53.7
       },
@@ -1116,7 +1046,7 @@ class Component extends DCLogic {
     "total": 820,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 453,
         "pct": 55.2
       },
@@ -1143,7 +1073,7 @@ class Component extends DCLogic {
     "total": 665,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 344,
         "pct": 51.7
       },
@@ -1170,7 +1100,7 @@ class Component extends DCLogic {
     "total": 355,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 178,
         "pct": 50.1
       },
@@ -1197,7 +1127,7 @@ class Component extends DCLogic {
     "total": 305,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 195,
         "pct": 63.9
       },
@@ -1224,7 +1154,7 @@ class Component extends DCLogic {
     "total": 23,
     "topics": [
       {
-        "name": "Diskusi Umum",
+        "name": "Diskusi_Umum",
         "count": 16,
         "pct": 69.6
       },
@@ -1247,15 +1177,14 @@ class Component extends DCLogic {
     "highlight": "Penggunaan versi QGIS 3.40+ LTR & penerapan alur kerja GIS otomatis berbasis AI/IndoBERT."
   }
 };
+  yearlyAnalytics = {};
 
   state = {
-    screen: this.props.defaultScreen || 'home',
+    screen: this.props.defaultScreen || 'list',
     activeDigestId: 'd10',
     topicFilter: null,
     searchQuery: '',
     selectedYear: '2020',
-    tsFilter: null,
-    tsQuery: '',
   };
 
   goHome = () => this.setState({ screen: 'home' });
@@ -1265,32 +1194,23 @@ class Component extends DCLogic {
   setTopicFilter = (topic) => this.setState(s => ({ topicFilter: s.topicFilter === topic ? null : topic }));
   onSearchChange = (e) => this.setState({ searchQuery: e.target.value });
   selectYear = (yr) => this.setState({ selectedYear: yr });
-  setTsFilter = (cat) => this.setState(s => ({ tsFilter: s.tsFilter === cat ? null : cat }));
-  onTsQueryChange = (e) => this.setState({ tsQuery: e.target.value });
 
   renderVals() {
-    const { screen, activeDigestId, topicFilter, searchQuery, selectedYear, tsFilter, tsQuery } = this.state;
+    const { screen, activeDigestId, topicFilter, searchQuery, selectedYear } = this.state;
     const digestsView = this.digests.map(d => ({ ...d, open: () => this.goDetail(d.id) }));
 
     const q = searchQuery.trim().toLowerCase();
-    // A digest's `topics` are short tags ("UTM", "WGS84"); its category is its title.
-    // Match on either so the chips and the tiles actually return results.
-    const inCategory = (d, cat) => d.title === cat || d.topics.includes(cat);
-    const matchesQuery = (d, term) => !term || d.title.toLowerCase().includes(term)
-      || d.excerpt.toLowerCase().includes(term)
-      || d.topics.some(t => t.toLowerCase().includes(term))
-      || d.troubleshooting.some(tb => (tb.prob + ' ' + tb.cause + ' ' + tb.sol).toLowerCase().includes(term));
-    const filteredDigests = digestsView.filter(d => (!topicFilter || inCategory(d, topicFilter)) && matchesQuery(d, q));
+    const filteredDigests = digestsView.filter(d =>
+      (!topicFilter || d.topics.includes(topicFilter)) &&
+      (!q || d.title.toLowerCase().includes(q) || d.excerpt.toLowerCase().includes(q))
+    );
 
     const topicChips = [{ name: 'Semua', active: !topicFilter, inactive: !!topicFilter, select: () => this.setState({ topicFilter: null }) }]
       .concat(this.topicsMaster.map(t => ({ name: t, active: topicFilter === t, inactive: topicFilter !== t, select: () => this.setTopicFilter(t) })));
 
-    const threadsOf = (cat) => this.digests.filter(d => inCategory(d, cat)).reduce((a, d) => a + d.stats.threads, 0);
-
     const topicTiles = this.topicsMaster.map(t => ({
       name: t,
-      count: threadsOf(t).toLocaleString('id-ID'),
-      tags: (this.digests.find(d => d.title === t) || { topics: [] }).topics.join(' · '),
+      count: this.digests.filter(d => d.topics.includes(t)).length,
       open: () => this.goList(t),
     }));
 
@@ -1306,29 +1226,6 @@ class Component extends DCLogic {
     }));
 
     const activeYearData = this.yearlyAnalytics[selectedYear] || { year: selectedYear, total: 0, topics: [], highlight: '' };
-
-    // ---- MASTER TROUBLESHOOTING: every problem from every category, in one table ----
-    const allIssues = this.digests.flatMap(d => d.troubleshooting.map(tb => ({
-      cat: d.title,
-      catShort: d.title.length > 34 ? d.title.slice(0, 32) + '…' : d.title,
-      digestId: d.id,
-      prob: tb.prob,
-      cause: tb.cause,
-      sol: tb.sol,
-    })));
-    const tq = tsQuery.trim().toLowerCase();
-    const tsRows = allIssues
-      .filter(r => (!tsFilter || r.cat === tsFilter))
-      .filter(r => !tq || (r.prob + ' ' + r.cause + ' ' + r.sol + ' ' + r.cat).toLowerCase().includes(tq))
-      .map(r => ({ ...r, open: () => this.goDetail(r.digestId) }));
-    const tsChips = [{ name: 'Semua Kategori', count: allIssues.length, active: !tsFilter, inactive: !!tsFilter, select: () => this.setState({ tsFilter: null }) }]
-      .concat(this.topicsMaster.map(t => ({
-        name: t,
-        count: allIssues.filter(r => r.cat === t).length,
-        active: tsFilter === t,
-        inactive: tsFilter !== t,
-        select: () => this.setTsFilter(t),
-      })));
 
     return {
       isHome: screen === 'home',
@@ -1356,15 +1253,6 @@ class Component extends DCLogic {
       activeDigest,
       yearList,
       activeYearData,
-      yearTopicsShown: activeYearData.topics.length,
-      tsRows,
-      tsChips,
-      tsQuery,
-      onTsQueryChange: this.onTsQueryChange,
-      tsTotal: allIssues.length,
-      tsShown: tsRows.length,
-      tsEmpty: tsRows.length === 0,
-      tsCatCount: this.topicsMaster.length,
     };
   }
 }
