@@ -405,8 +405,8 @@ class Component extends DCLogic {
 
     const q = searchQuery.trim().toLowerCase();
     const filteredDigests = digestsView.filter(d =>
-      (!topicFilter || d.topics.includes(topicFilter)) &&
-      (!q || d.title.toLowerCase().includes(q) || d.excerpt.toLowerCase().includes(q))
+      (!topicFilter || d.title === topicFilter || d.topics.includes(topicFilter)) &&
+      (!q || d.title.toLowerCase().includes(q) || d.excerpt.toLowerCase().includes(q) || d.topics.some(t => t.toLowerCase().includes(q)))
     );
 
     const topicChips = [{ name: 'Semua', active: !topicFilter, inactive: !!topicFilter, select: () => this.setState({ topicFilter: null }) }]
@@ -414,7 +414,7 @@ class Component extends DCLogic {
 
     const topicTiles = this.topicsMaster.map(t => ({
       name: t,
-      count: this.digests.filter(d => d.topics.includes(t)).length,
+      count: this.digests.filter(d => d.title === t || d.topics.includes(t)).length,
       open: () => this.goList(t),
     }));
 
