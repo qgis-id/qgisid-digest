@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#f7f6f2;font-family:'Source Sans 3',sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#3f6f22;text-decoration:none}
+  a:hover{color:#2c4f18;text-decoration:underline}
+  *{box-sizing:border-box}
+  ::placeholder{color:#8a978f}
+  table th, table td { vertical-align: top; }
+  .indobert-badge { background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+  .year-btn { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid rgba(0,32,51,.15); background: #fff; color: #45534d; cursor: pointer; transition: all .2s; }
+  .year-btn.active { background: #3f6f22; color: #fff; border-color: #3f6f22; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;color:#16232b">
+
+  <!-- HEADER WITH INDOBERT CREDIT -->
+  <header style="height:76px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:#ffffff;border-bottom:1px solid rgba(0,32,51,.08);position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer" onClick="{{ goHome }}">
+      <div style="width:40px;height:40px;border-radius:10px;background:#4a7d29;display:flex;align-items:center;justify-content:center;flex:none">
+        <span style="font-family:Manrope,sans-serif;font-weight:800;font-size:16px;color:#fff">Qi</span>
+      </div>
+      <div style="display:flex;flex-direction:column;line-height:1.2">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:#002033">QGIS Indonesia</span>
+          <span class="indobert-badge">IndoBERT Powered</span>
+        </div>
+        <span style="font-size:10px;letter-spacing:.5px;color:#75857d;text-transform:uppercase">Komunitas Pengguna · KB Digest</span>
+      </div>
+    </div>
+
+    <nav style="display:flex;align-items:center;gap:32px">
+      <sc-if value="{{navHomeActive}}" hint-placeholder-val="{{ true }}">
+        <span style="font-size:14px;font-weight:700;color:#002033;border-bottom:2px solid #4a7d29;padding-bottom:6px;cursor:pointer" onClick="{{ goHome }}">Beranda</span>
+      </sc-if>
+      <sc-if value="{{navHomeInactive}}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:14px;color:#45534d;cursor:pointer" onClick="{{ goHome }}">Beranda</span>
+      </sc-if>
+      <sc-if value="{{navListActive}}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:14px;font-weight:700;color:#002033;border-bottom:2px solid #4a7d29;padding-bottom:6px;cursor:pointer" onClick="{{ openArchive }}">Arsip Digest</span>
+      </sc-if>
+      <sc-if value="{{navListInactive}}" hint-placeholder-val="{{ true }}">
+        <span style="font-size:14px;color:#45534d;cursor:pointer" onClick="{{ openArchive }}">Arsip Digest</span>
+      </sc-if>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="#troubleshooting" style="background:none;border:1px solid rgba(0,32,51,.15);color:#002033;padding:9px 16px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer;text-decoration:none">🛠️ Troubleshooting</a>
+      <a href="#" style="background:#002033;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">Gabung Telegram</a>
+    </div>
+  </header>
+
+  <!-- BERANDA -->
+  <sc-if value="{{isHome}}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Beranda">
+
+    <!-- HERO WITH INDOBERT BANNER -->
+    <section style="background:linear-gradient(130deg,#3f6f22 0%,#002033 60%);background-image:linear-gradient(130deg,#3f6f22 0%,#002033 60%),repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0px, rgba(255,255,255,.035) 1px, transparent 1px, transparent 26px);padding:96px 48px 72px">
+      <div style="max-width:760px;margin:0 auto 0 auto">
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:1.5px;color:#f0e64a;text-transform:uppercase"><span style="width:7px;height:7px;border-radius:50%;background:#f0e64a;display:inline-block"></span>Digest Komunitas QGIS Indonesia</span>
+        <h1 style="font-family:Manrope,sans-serif;font-weight:800;font-size:46px;line-height:1.15;color:#fff;margin:16px 0">Rangkuman Pengetahuan Komunitas QGIS Indonesia (2019–2026)</h1>
+        <p style="font-size:17px;line-height:1.65;color:rgba(255,255,255,.78);max-width:640px;margin:0">Disintesis dari 26.475 pesan Telegram komunitas menggunakan IndoBERT &amp; AI untuk klasifikasi domain, analitik tren tahunan, dan solusi teknis GIS terbaik.</p>
+
+        <!-- INDOBERT CREDIT BOX -->
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:16px 20px;margin-top:24px;display:flex;align-items:center;gap:14px">
+          <div style="width:38px;height:38px;border-radius:8px;background:#f0e64a;color:#002033;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none">BERT</div>
+          <div style="font-size:13.5px;color:rgba(255,255,255,.9);line-height:1.5">
+            <strong>IndoBERT Model Credit:</strong> Vektorisasi 768-dimensi &amp; klusterisasi 6.332 thread didukung oleh <code>indobenchmark/indobert-base-p1</code> (IndoNLU / IndoBenchmark) untuk pemrosesan teks geospasial Bahasa Indonesia.
+          </div>
+        </div>
+
+        <div style="display:flex;gap:16px;margin-top:28px">
+          <button style="background:#93b023;color:#002033;border:none;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer" onClick="{{ openArchive }}">Yuk, Lihat Arsip Digest →</button>
+          <a href="#" style="border:1px solid rgba(255,255,255,.4);color:#fff;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:600">Gabung Ngobrol di Telegram</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO STATS -->
+    <sc-if value="{{showHeroStats}}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:1100px;margin:-40px auto 0;background:#fff;border-radius:16px;box-shadow:0 24px 48px rgba(0,32,51,.14);padding:32px 40px;display:flex;justify-content:space-between;position:relative;z-index:2">
+      <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">26.475</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Total Pesan Parsed</div></div>
+      <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">6.332</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Thread IndoBERT</div></div>
+      <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">2019–2026</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Rentang Tahun Analitik</div></div>
+      <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">10</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Domain Kategori</div></div>
+    </div>
+    </sc-if>
+
+    <!-- 📊 SECTION ANALITIK TREN TAHUNAN (2019 - 2026) -->
+    <section style="max-width:1100px;margin:0 auto;padding:88px 48px 24px">
+      <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;padding:36px;box-shadow:0 8px 24px rgba(0,32,51,.05)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+          <div>
+            <span style="font-size:12px;font-weight:700;letter-spacing:1px;color:#4a7d29;text-transform:uppercase">Analitik Komunitas</span>
+            <h3 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:4px 0 0">📈 Topik Tren Diskusi per Tahun (2019–2026)</h3>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ yearList }}" as="yr">
+              <button class="year-btn {{ yr.activeCls }}" onClick="{{ yr.select }}">{{ yr.year }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <p style="font-size:14.5px;color:#4a5a53;margin:0 0 24px">
+          Distribusi topik diskusi terpopuler pada tahun <strong>{{ activeYearData.year }}</strong> (Total {{ activeYearData.total }} thread terkluster IndoBERT):
+        </p>
+
+        <!-- PROGRESS BARS TAHUNAN -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <sc-for list="{{ activeYearData.topics }}" as="yt">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px">
+                <span style="font-weight:700;color:#002033">{{ yt.name }}</span>
+                <span style="color:#75857d;font-weight:600">{{ yt.count }} thread ({{ yt.pct }}%)</span>
+              </div>
+              <div style="height:10px;background:#f2f1ec;border-radius:5px;overflow:hidden">
+                <div style="height:100%;background:linear-gradient(90deg,#4a7d29,#93b023);width:{{ yt.pct }}%;border-radius:5px"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(0,32,51,.06);font-size:13px;color:#75857d;display:flex;align-items:center;gap:8px">
+          <span style="background:#eef3e4;color:#3f6f22;padding:3px 8px;border-radius:4px;font-weight:700">Highlight {{ activeYearData.year }}</span>
+          <span>{{ activeYearData.highlight }}</span>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:#93a29a;line-height:1.5">
+          Catatan: grafik menampilkan {{ yearTopicsShown }} topik teratas tahun {{ activeYearData.year }}, sehingga persentasenya tidak berjumlah 100%. Sisanya tersebar di kategori lain.
+        </div>
+      </div>
+    </section>
+
+    <!-- DIGEST UTAMA -->
+    <section style="max-width:1100px;margin:0 auto;padding:24px 48px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px">
+        <span style="font-size:13px;font-weight:700;letter-spacing:1px;color:#4a7d29;text-transform:uppercase">Digest Utama</span>
+        <span style="font-size:13px;color:#75857d">{{ featured.dateLabel }}</span>
+      </div>
+      <div style="display:flex;background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,32,51,.05)">
+        <div style="flex:1 1 60%;padding:40px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+            <sc-for list="{{ featured.topics }}" as="t" hint-placeholder-count="3">
+              <span style="background:#eef3e4;color:#3f6f22;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px">{{ t }}</span>
+            </sc-for>
+          </div>
+          <h2 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:0 0 12px">{{ featured.title }}</h2>
+          <p style="font-size:15px;line-height:1.65;color:#4a5a53;margin:0 0 20px">{{ featured.excerpt }}</p>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+            <span style="font-size:13px;color:#75857d">{{ featured.stats.threads }} thread diskusi terkluster</span>
+          </div>
+          <button style="background:#3f6f22;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer" onClick="{{ featured.open }}">Baca Rangkumannya →</button>
+        </div>
+        <div style="flex:1 1 40%;background:#f5f7f0;border-left:1px solid rgba(0,32,51,.06);padding:40px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#75857d;text-transform:uppercase;margin-bottom:16px">Kontributor Komunitas</div>
+          <sc-for list="{{ featured.contributors }}" as="c" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <div style="width:30px;height:30px;border-radius:50%;background:#002033;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">{{ c.initials }}</div>
+              <span style="font-size:14px;color:#16232b">{{ c.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🛠️ MASTER TROUBLESHOOTING TABLE (ringkasan semua masalah) -->
+    <section id="troubleshooting" style="max-width:1100px;margin:0 auto;padding:24px 48px 24px">
+      <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;padding:36px;box-shadow:0 8px 24px rgba(0,32,51,.05)">
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:8px">
+          <div>
+            <span style="font-size:12px;font-weight:700;letter-spacing:1px;color:#4a7d29;text-transform:uppercase">Ringkasan Lintas Kategori</span>
+            <h3 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:4px 0 0">🛠️ Masalah Umum &amp; Solusi Teknis (Troubleshooting)</h3>
+          </div>
+          <input type="text" placeholder="Cari masalah, penyebab, atau solusi…" value="{{ tsQuery }}" onChange="{{ onTsQueryChange }}" style="padding:10px 14px;border:1px solid rgba(0,32,51,.15);border-radius:8px;font-size:14px;font-family:inherit;width:280px" />
+        </div>
+
+        <p style="font-size:14.5px;color:#4a5a53;margin:0 0 20px;line-height:1.6">
+          Seluruh <strong>{{ tsTotal }} masalah</strong> yang terdokumentasi dari <strong>{{ tsCatCount }} kategori domain</strong>, dirangkum dalam satu tabel. Menampilkan <strong>{{ tsShown }}</strong> baris.
+        </p>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px">
+          <sc-for list="{{ tsChips }}" as="tc" hint-placeholder-count="5">
+            <sc-if value="{{ tc.active }}" hint-placeholder-val="{{ false }}">
+              <button style="background:#3f6f22;color:#fff;border:none;padding:7px 14px;border-radius:20px;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer" onClick="{{ tc.select }}">{{ tc.name }} ({{ tc.count }})</button>
+            </sc-if>
+            <sc-if value="{{ tc.inactive }}" hint-placeholder-val="{{ true }}">
+              <button style="background:#fff;color:#45534d;border:1px solid rgba(0,32,51,.15);padding:7px 14px;border-radius:20px;font-size:12.5px;font-family:inherit;cursor:pointer" onClick="{{ tc.select }}">{{ tc.name }} ({{ tc.count }})</button>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="overflow-x:auto">
+          <div style="min-width:880px;font-size:14px">
+            <div style="display:grid;grid-template-columns:17% 24% 26% 33%;background:#eef3e4;color:#3f6f22;border-bottom:2px solid rgba(63,111,34,.2);font-weight:700">
+              <div style="padding:12px 14px">Kategori Domain</div>
+              <div style="padding:12px 14px">Masalah / Gejala Utama</div>
+              <div style="padding:12px 14px">Akar Penyebab (Root Cause)</div>
+              <div style="padding:12px 14px">Solusi &amp; Langkah Perbaikan Teknis</div>
+            </div>
+            <sc-for list="{{ tsRows }}" as="ts" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:17% 24% 26% 33%;border-bottom:1px solid rgba(0,32,51,.06);cursor:pointer" onClick="{{ ts.open }}">
+                <div style="padding:12px 14px;font-size:12.5px;color:#3f6f22;font-weight:600">{{ ts.catShort }}</div>
+                <div style="padding:12px 14px;font-weight:700;color:#002033">{{ ts.prob }}</div>
+                <div style="padding:12px 14px;color:#4a5a53">{{ ts.cause }}</div>
+                <div style="padding:12px 14px;color:#16232b">{{ ts.sol }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ tsEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:48px 20px;color:#75857d;font-size:15px">Tidak ada masalah yang cocok dengan pencarian itu. Coba kata kunci lain, ya!</div>
+        </sc-if>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,32,51,.06);font-size:12.5px;color:#93a29a;line-height:1.5">
+          Klik baris mana pun untuk membuka digest kategorinya. Tabel ini dirakit langsung dari data troubleshooting tiap kategori, jadi setiap penambahan digest otomatis ikut terangkum di sini.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GRID 10 KATEGORI -->
+    <section style="max-width:1100px;margin:0 auto;padding:24px 48px 64px">
+      <h3 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:0 0 6px">Ngobrolin Apa Aja?</h3>
+      <p style="font-size:14px;color:#75857d;margin:0 0 28px">Susuri digest berdasarkan 10 domain kategori teknis utama di grup Telegram.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <sc-for list="{{ topicTiles }}" as="tp" hint-placeholder-count="6">
+          <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-top:4px solid #4a7d29;border-radius:12px;padding:22px;cursor:pointer" onClick="{{ tp.open }}">
+            <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:16px;color:#002033;margin-bottom:6px">{{ tp.name }}</div>
+            <div style="font-size:13px;color:#75857d;margin-bottom:8px">{{ tp.count }} thread terkluster</div>
+            <div style="font-size:11.5px;color:#93a29a">{{ tp.tags }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+  </sc-if>
+
+  <!-- ARSIP DIGEST LIST -->
+  <sc-if value="{{isList}}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Arsip Digest" style="max-width:1100px;margin:0 auto;padding:40px 48px 96px">
+    <div style="font-size:13px;color:#75857d;margin-bottom:18px">
+      <a href="#" onClick="{{ goHome }}">Beranda</a> <span style="margin:0 6px">/</span> <span style="color:#002033;font-weight:600">Arsip Digest</span>
+    </div>
+    <h1 style="font-family:Manrope,sans-serif;font-weight:800;font-size:32px;color:#002033;margin:0 0 6px">Arsip Digest Komunitas</h1>
+    <p style="font-size:14px;color:#75857d;margin:0 0 28px">{{ filteredCount }} digest domain siap dibaca</p>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:28px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <sc-for list="{{ topicChips }}" as="chip" hint-placeholder-count="7">
+          <sc-if value="{{ chip.active }}" hint-placeholder-val="{{ false }}">
+            <button style="background:#3f6f22;color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer" onClick="{{ chip.select }}">{{ chip.name }}</button>
+          </sc-if>
+          <sc-if value="{{ chip.inactive }}" hint-placeholder-val="{{ true }}">
+            <button style="background:#fff;color:#45534d;border:1px solid rgba(0,32,51,.15);padding:8px 16px;border-radius:20px;font-size:13px;font-family:inherit;cursor:pointer" onClick="{{ chip.select }}">{{ chip.name }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+      <input type="text" placeholder="Cari digest…" value="{{ searchQuery }}" onChange="{{ onSearchChange }}" style="padding:10px 14px;border:1px solid rgba(0,32,51,.15);border-radius:8px;font-size:14px;font-family:inherit;width:240px" />
+    </div>
+
+    <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:80px 20px;color:#75857d;font-size:15px">Belum ada digest yang cocok. Coba kata kunci lain, ya!</div>
+    </sc-if>
+
+    <div style="{{ archiveContainerStyle }}">
+      <sc-for list="{{ filteredDigests }}" as="d" hint-placeholder-count="6">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:14px;padding:26px;cursor:pointer" onClick="{{ d.open }}">
+          <div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">{{ d.dateLabel }}</div>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:8px">{{ d.title }}</div>
+          <p style="font-size:14px;line-height:1.6;color:#4a5a53;margin:0 0 16px">{{ d.excerpt }}</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+            <sc-for list="{{ d.topics }}" as="t3" hint-placeholder-count="2">
+              <span style="background:#eef3e4;color:#3f6f22;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px">{{ t3 }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- DETAIL SCREEN WITH RICH SECTIONS -->
+  <sc-if value="{{isDetail}}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Detail Digest" style="max-width:1200px;margin:0 auto;padding:40px 48px 96px">
+    <div style="font-size:13px;color:#75857d;margin-bottom:18px">
+      <a href="#" onClick="{{ goHome }}">Beranda</a> <span style="margin:0 6px">/</span> <a href="#" onClick="{{ openArchive }}">Arsip Digest</a> <span style="margin:0 6px">/</span> <span style="color:#002033;font-weight:600">{{ activeDigest.title }}</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <sc-for list="{{ activeDigest.topics }}" as="t4" hint-placeholder-count="3">
+        <span style="background:#eef3e4;color:#3f6f22;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px">{{ t4 }}</span>
+      </sc-for>
+    </div>
+    <h1 style="font-family:Manrope,sans-serif;font-weight:800;font-size:32px;color:#002033;margin:0 0 10px;line-height:1.2">{{ activeDigest.title }} — QGIS Indonesia Knowledge Base</h1>
+    <div style="font-size:14px;color:#75857d;margin-bottom:28px">{{ activeDigest.dateLabel }} · {{ activeDigest.stats.threads }} thread terkluster · Data Diskusi 2019–2026</div>
+    <div style="height:1px;background:rgba(0,32,51,.1);margin-bottom:32px"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start">
+      <div>
+        <!-- 📌 Section 1: Ringkasan & Gambaran Topik -->
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-left:4px solid #3f6f22;border-radius:12px;padding:24px;margin-bottom:32px;box-shadow:0 4px 12px rgba(0,0,0,.02)">
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:10px">📌 Ringkasan &amp; Gambaran Topik</div>
+          <p style="font-size:15px;line-height:1.7;color:#4a5a53;margin:0">{{ activeDigest.excerpt }}</p>
+        </div>
+
+        <!-- 🛠️ Section 2: Masalah Umum & Solusi Teknis (Troubleshooting Table) -->
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;overflow-x:auto;box-shadow:0 4px 12px rgba(0,0,0,.02)">
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">🛠️ Masalah Umum &amp; Solusi Teknis (Troubleshooting)</div>
+          <div style="overflow-x:auto">
+            <div style="min-width:680px;font-size:14px">
+              <div style="display:grid;grid-template-columns:30% 32% 38%;background:#eef3e4;color:#3f6f22;border-bottom:2px solid rgba(63,111,34,.2);font-weight:700">
+                <div style="padding:12px 14px">Masalah / Gejala Utama</div>
+                <div style="padding:12px 14px">Akar Penyebab (Root Cause)</div>
+                <div style="padding:12px 14px">Solusi &amp; Langkah Perbaikan Teknis</div>
+              </div>
+              <sc-for list="{{ activeDigest.troubleshooting }}" as="tb" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:30% 32% 38%;border-bottom:1px solid rgba(0,32,51,.06)">
+                  <div style="padding:12px 14px;font-weight:700;color:#002033">{{ tb.prob }}</div>
+                  <div style="padding:12px 14px;color:#4a5a53">{{ tb.cause }}</div>
+                  <div style="padding:12px 14px;color:#16232b">{{ tb.sol }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💡 Section 3: Alur Kerja & Best Practices Komunitas -->
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;box-shadow:0 4px 12px rgba(0,0,0,.02)">
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">💡 Alur Kerja &amp; Best Practices Umum Komunitas</div>
+          <p style="font-size:12.5px;color:#93a29a;margin:0 0 14px;line-height:1.5">Berlaku lintas kategori — bukan spesifik untuk digest ini.</p>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="background:#f5f7f0;border-radius:8px;padding:16px">
+              <strong style="color:#3f6f22;font-size:15px">1. Pemeriksaan Awal &amp; Standardisasi Data:</strong>
+              <p style="margin:6px 0 0 0;font-size:14px;color:#4a5a53;line-height:1.6">Selalu periksa Sistem Referensi Koordinat (CRS) pada setiap data yang di-import sebelum melakukan kalkulasi geometri atau analisis spasial. Utamakan penggunaan format GeoPackage (.gpkg) dibandingkan Shapefile (.shp) lama untuk menghindari batasan memori DBF 2GB dan korupsi karakter.</p>
+            </div>
+            <div style="background:#f5f7f0;border-radius:8px;padding:16px">
+              <strong style="color:#3f6f22;font-size:15px">2. Manajemen Layer &amp; Project:</strong>
+              <p style="margin:6px 0 0 0;font-size:14px;color:#4a5a53;line-height:1.6">Simpan file project QGIS (.qgz) dalam struktur folder terorganisir bersama data pendukungnya. Aktifkan Spatial Index pada layer-layer berukuran besar untuk mempercepat pemrosesan rendering canvas.</p>
+            </div>
+            <div style="background:#f5f7f0;border-radius:8px;padding:16px">
+              <strong style="color:#3f6f22;font-size:15px">3. Penggunaan Versi QGIS Long Term Release (LTR):</strong>
+              <p style="margin:6px 0 0 0;font-size:14px;color:#4a5a53;line-height:1.6">Untuk lingkungan kerja profesional dan produksi, gunakan selalu versi QGIS LTR yang menawarkan stabilitas tertinggi dan dukungan plugin teruji.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💬 Section 4: Contoh Diskusi Nyata Komunitas -->
+        <div style="margin-top:40px">
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">💬 Contoh Diskusi &amp; Pertanyaan Nyata Komunitas</div>
+          <sc-for list="{{ activeDigest.quotes }}" as="qtext" hint-placeholder-count="3">
+            <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-left:3px solid #3f6f22;border-radius:10px;padding:16px 20px;margin-bottom:12px;font-style:italic;color:#4a5a53;font-size:14px;line-height:1.6">
+              "{{ qtext }}"
+            </div>
+          </sc-for>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR WITH INDOBERT CREDIT -->
+      <div style="display:flex;flex-direction:column;gap:20px;position:sticky;top:96px">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:20px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#75857d;text-transform:uppercase;margin-bottom:10px">NLP Embedding Engine</div>
+          <div style="font-size:13.5px;color:#002033;font-weight:700;margin-bottom:6px">IndoBERT (IndoNLU)</div>
+          <p style="font-size:12.5px;color:#75857d;margin:0 0 10px;line-height:1.5">Model <code>indobenchmark/indobert-base-p1</code> digunakan untuk klasifikasi otomatis dan vektorisasi thread.</p>
+          <span class="indobert-badge">768-Dim Vector Space</span>
+        </div>
+
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:20px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#75857d;text-transform:uppercase;margin-bottom:14px">Kontributor Komunitas</div>
+          <sc-for list="{{ activeDigest.contributors }}" as="c2" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <div style="width:30px;height:30px;border-radius:50%;background:#002033;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">{{ c2.initials }}</div>
+              <span style="font-size:14px;color:#16232b">{{ c2.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:20px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#75857d;text-transform:uppercase;margin-bottom:12px">Sumber &amp; Rujukan</div>
+          <sc-for list="{{ activeDigest.resources }}" as="rs" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+              <span style="background:#eef3e4;color:#3f6f22;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;flex:none">{{ rs.type }}</span>
+              <span style="font-size:13px;color:#16232b;line-height:1.4">{{ rs.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#002033;border-radius:12px;padding:22px;color:#fff">
+          <div style="font-size:15px;font-weight:700;margin-bottom:14px">Ingin berdiskusi lebih lanjut?</div>
+          <a href="#" style="display:block;text-align:center;background:#93b023;color:#002033;padding:11px;border-radius:8px;font-size:13.5px;font-weight:700">Gabung Telegram QGISID</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- FOOTER WITH INDOBERT CREDIT -->
+  <footer style="background:#002033;color:rgba(255,255,255,.65);padding:44px 48px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px">
+    <div>
+      <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:#fff;margin-bottom:8px">Komunitas Pengguna QGIS Indonesia · Knowledge Base</div>
+      <div style="font-size:12.5px;max-width:480px;line-height:1.6">Dikelola oleh Komunitas Pengguna QGIS Indonesia. Text representation &amp; domain clustering powered by <strong>IndoBERT</strong> (IndoNLU / IndoBenchmark). Bukan bagian resmi dari proyek QGIS.org.</div>
+    </div>
+    <div style="display:flex;gap:28px;font-size:13px;align-items:flex-start">
+      <a href="#" style="color:rgba(255,255,255,.65)">Grup Telegram</a>
+      <a href="https://github.com/indonlu/indobert" target="_blank" style="color:rgba(255,255,255,.65)">IndoBERT GitHub</a>
+      <a href="https://qgis.org" target="_blank" style="color:rgba(255,255,255,.65)">qgis.org</a>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;home&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;list&quot;,&quot;detail&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;archiveLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;list&quot;,&quot;options&quot;:[&quot;list&quot;,&quot;grid&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;showHeroStats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+class Component extends DCLogic {
+  digests = [
+  {
+    "id": "d1",
+    "dateLabel": "Edisi CRS & Proyeksi Koordinat Spasial",
+    "title": "CRS & Proyeksi Koordinat Spasial",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 289 thread diskusi aktif yang berfokus pada CRS & Proyeksi Koordinat Spasial.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Proyeksi",
+      "UTM",
+      "WGS84"
+    ],
+    "stats": {
+      "messages": 1156,
+      "participants": 96,
+      "threads": 289
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Data bergeser atau tidak menumpuk presisi",
+        "cause": "Layer menggunakan CRS geografis (WGS84) sementara project di UTM",
+        "sol": "Lakukan Reproject Layer (Vector -> Data Management Tools -> Reproject Layer) ke zona UTM lokal (misal EPSG 32748/32749)."
+      },
+      {
+        "prob": "Error kalkulasi luas (Area = 0 atau derajat persegi)",
+        "cause": "Menghitung luas poligon pada CRS Geografis (WGS84 / EPSG:4326)",
+        "sol": "Ubah CRS Layer ke CRS Proyeksi (UTM / Meter) sebelum menjalankan `$area` di Field Calculator."
+      },
+      {
+        "prob": "Google Satellite / OSM Basemap bertumpuk aneh",
+        "cause": "Project CRS belum di-set ke Pseudo-Mercator (EPSG:3857)",
+        "sol": "Klik ikon CRS di sudut kanan bawah QGIS, aktifkan On-The-Fly (OTF) Reprojection dan atur CRS Project ke EPSG:3857."
+      }
+    ],
+    "quotes": [
+      "Assalamualaikum. Para master.Mau nanya cara mencari luas wilayah yang di beri warna tu kek mana ya? kalau di attribute table, bisa ngitung luasnya pakai ekspresi $area , misalnya b...",
+      "Boleh nanya, kalo pake proyeksi wgs, bikin grid di layout, kalo mau dibuat per 10 menit 30 detik, harus dikonvert dulu ke desimal ya? Maksudnya pengaturan intervalnya ya? Ita, maks...",
+      "Kalau di riau biasa zona berapa mas? Coba search Google, kata kunci ' riau utm' atau dapat lihat di sini http://www.dmap.co.uk/utmworld.htm",
+      "Ada yang tau gimana settingnya? Datanya pake wgs, tapi di grid nya saya mau ganti ke utm, tapi muncul seperti ini Ada yang pernah ngalamin ini? Mungkin bs dicapture setting grid ny...",
+      "mas [Anggota Komunitas] gimana yang kemaren grid UTMnya udah solved belum? Berhasil ul.. makasih banyak Ini sblmnya"
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset CRS & Proyeksi Koordinat Spasial",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d2",
+    "dateLabel": "Edisi Pengolahan Data Vektor & Tabel Atribut",
+    "title": "Pengolahan Data Vektor & Tabel Atribut",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 717 thread diskusi aktif yang berfokus pada Pengolahan Data Vektor & Tabel Atribut.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Vektor",
+      "GeoPackage",
+      "Atribut"
+    ],
+    "stats": {
+      "messages": 2868,
+      "participants": 239,
+      "threads": 717
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "File SHP lambat dibuka atau corrupt",
+        "cause": "Ukuran SHP melampaui batas 2GB per file DBF",
+        "sol": "Migrasi seluruh data vektor dari ESRI Shapefile (.shp) ke format GeoPackage (.gpkg)."
+      },
+      {
+        "prob": "Gagal gabungkan tabel (Join Attribute Error)",
+        "cause": "Tipe data kolom primary key dan foreign key tidak sama (String vs Integer)",
+        "sol": "Gunakan Field Calculator untuk membuat kolom baru dengan tipe data yang sama (`to_string()` atau `to_int()`)."
+      },
+      {
+        "prob": "Geometri invalid / Poligon bocor saat Buffer / Union",
+        "cause": "Terdapat self-intersection atau vertex ganda pada poligon",
+        "sol": "Jalankan tool Fix Geometries di Processing Toolbox sebelum melakukan geoprocessing."
+      }
+    ],
+    "quotes": [
+      "Nanti ketua2an nek wis meh register ke qgis aja. Biar membuka peluang kalau ada yg pengen join jadi 0engruus Siap bung, sambil nunggu domisilimu pindah ke Indonesia Jelass ini",
+      "Selamat siang teman teman, adakah cara untuk batch export dari shp ke file csv jika kita memiliki ratusan file shapefile dan hasil export berupa file csv dengan nama tiap tiap csv ...",
+      "Permisi, ada yang tau klo mau download .shp admin level desa se indonesia bisa dpt dimana yah? https://t.me/gis_id_data/4",
+      "https://cloud.google.com/maps-platform/terms/ c) No Creating Content From Google Maps Content. Customer will not create content based on Google Maps Content. For example, Customer ...",
+      "Yah rov mah ga guna itu default ada pakai r-bridge atuh https://www.rdocumentation.org/packages/arcgisbinding/versions/1.0.1.229/topics/arc.write Ga nyambung ini tujuannya iterasi ..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Pengolahan Data Vektor & Tabel Atribut",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d3",
+    "dateLabel": "Edisi Pengolahan Data Raster & Penginderaan Jauh",
+    "title": "Pengolahan Data Raster & Penginderaan Jauh",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 501 thread diskusi aktif yang berfokus pada Pengolahan Data Raster & Penginderaan Jauh.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Raster",
+      "DEM",
+      "Citra Satelit"
+    ],
+    "stats": {
+      "messages": 2004,
+      "participants": 167,
+      "threads": 501
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Citra Satelit tampak hitam-putih / kontras jelek",
+        "cause": "Histogram citra belum di-stretch secara otomatis",
+        "sol": "Buka Layer Properties -> Symbology, ubah Stretch to MinMax dan sesuaikan cumulative count cut (2%-98%)."
+      },
+      {
+        "prob": "Proses interpolasi DEM (Contour/Hillshade) sangat lama",
+        "cause": "Resolusi raster terlalu tinggi untuk area studi luas",
+        "sol": "Lakukan Clipping Raster sesuai Boundary AOI dan jalankan Resample Raster sebelum kalkulasi kontur."
+      },
+      {
+        "prob": "Nilai indeks vegetasi (NDVI) di luar rentang -1 s/d 1",
+        "cause": "Kombinasi band NIR dan Red terbalik saat Raster Calculator",
+        "sol": "Pastikan rumus NDVI = `(NIR - Red) / (NIR + Red)` menggunakan nomor band yang tepat sesuai metadata sensor."
+      }
+    ],
+    "quotes": [
+      "Yg dari lutra itu udah nyobain? Demger2 bagus Udah itu, dapat linknya dari yang mulia [Anggota Komunitas] waktu itu. Lancar jaya. Gara2 males pake kyngchaos. Haha, yg kynchaos lebi...",
+      "Ngeri juga yah Iya mas, mengerikan sekali pokoknya Demi meetup gag magriban dulu berarti pak Rung tau melu acara yo mbah sugiono? Mohon Bahasa Indonesia ya 😀 Urung tahu pak nembe i...",
+      "Demikian terima kasih Semoga bermanfaat Sangat bermanfaat, Pak.👍👍",
+      "#Tutorial Berikut ini adalah tutorial mendapatkan profil elevasi perpipaan yang berada di jaringan dengan menggunakan #QGIS, sangat penting untuk diketahui oleh PDAM yang memiliki ...",
+      "Pak [Anggota Komunitas] kalo di meetup qgisid ada sesi handson bersedia kasi demo basic grass di QGIS kah? Hehehe Saya mah siap saja, masalahnya, ada yang mau ikutan gak? 😂 Ide bag..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Pengolahan Data Raster & Penginderaan Jauh",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d4",
+    "dateLabel": "Edisi Plugin & Ekstensi Populer QGIS",
+    "title": "Plugin & Ekstensi Populer QGIS",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 381 thread diskusi aktif yang berfokus pada Plugin & Ekstensi Populer QGIS.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Plugin",
+      "QuickMapServices",
+      "SCP"
+    ],
+    "stats": {
+      "messages": 1524,
+      "participants": 127,
+      "threads": 381
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Basemap QuickMapServices tidak muncul / error 403",
+        "cause": "URL tileset basemap out-of-date atau diblokir provider",
+        "sol": "Buka Plugins -> QuickMapServices -> Settings -> More services -> Get contributed pack untuk update endpoint."
+      },
+      {
+        "prob": "Semi-Automatic Classification Plugin (SCP) crash saat clip",
+        "cause": "Lokasi folder temporary path mengandung karakter khusus/spasi",
+        "sol": "Atur Working Directory SCP ke folder tanpa spasi (misal: `C:/QGIS_Temp`)."
+      },
+      {
+        "prob": "Plugin tidak muncul di menu Plugins QGIS",
+        "cause": "Versi plugin belum di-unzip atau folder terluar ganda",
+        "sol": "Ekstrak plugin langsung ke folder `.qgis2/python/plugins` atau `profiles/default/python/plugins`."
+      }
+    ],
+    "quotes": [
+      "Kira2 member disini paling banyak mengalami problem apa ya pas menggunakan qgis? Sepertinya yg kita bahas di grup sebelah problem instalasi di windows berbagai versi kayaknya mendo...",
+      "1. Download Patch RBI for QMS Plugin QGIS3.exe yang sudah saya buatkan di https://s.id/6Kf-7 atau https://s.id/6Kg2c Patch buat mac dunks",
+      "Tapi ternyata ketika menambahkan services melalui setting - Get contributed pack, sampai saat ini peta rupabumi belum ikut tampil dalam list tile layer QMS Belum diaccept sama deve...",
+      "sebenernya bisa ngubah CONTRIBUTE_ZIP_DIRECT_URL = 'https://github.com/nextgis/quickmapservices_contrib/archive/master.zip' Iya sih ya, kenapa gak langsung dari github, lebih cepet",
+      "kemungkinan ada salah satu kolom yg tipe datanya bermasalah. biasanya ini yg mestinya date atau doy dikenali jadi string oleh qgis. mgkn bisa dicek lagi di python consolenya, atau ..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Plugin & Ekstensi Populer QGIS",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d5",
+    "dateLabel": "Edisi PyQGIS, Scripting & Otomasi Process",
+    "title": "PyQGIS, Scripting & Otomasi Process",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 160 thread diskusi aktif yang berfokus pada PyQGIS, Scripting & Otomasi Process.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "PyQGIS",
+      "Python",
+      "Otomasi"
+    ],
+    "stats": {
+      "messages": 640,
+      "participants": 53,
+      "threads": 160
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Error `NameError: name 'iface' is not defined`",
+        "cause": "Script dijalankan di luar console internal QGIS",
+        "sol": "Gunakan `from qgis.utils import iface` atau jalankan script melalui Python Console resmi QGIS."
+      },
+      {
+        "prob": "Layer hasil script Python tidak tampil di Canvas",
+        "cause": "Layer belum ditambahkan ke `QgsProject` instance",
+        "sol": "Panggil `QgsProject.instance().addMapLayer(layer)` di akhir script Python Anda."
+      },
+      {
+        "prob": "Batch processing plugin crash di pertengahan loop",
+        "cause": "Memory leak akibat layer tidak di-unload dari RAM",
+        "sol": "Panggil `layer = None` atau hapus referensi layer sementara di dalam perulangan `for` loop."
+      }
+    ],
+    "quotes": [
+      "Lalu saya ingin tanya juga, apakah kita harus menyesuaikan versi python yang terinstall sesuai dengan versi QGIS yang dipakai? Saya selalu mengalami freeze (hang) kalau menjalankan...",
+      "https://anaconda.org/conda-forge/qgis Udah dicoba yang ini. Gagal Berarti karena faktor Mac-nya itu 😁 Saya create Environment pake Python 3.6 tadi nyoba yg ini",
+      "Numpang iklan, Bang Admin 😀 Siapp pak firman, saya bantu share juga ke medsos QGISID ya. Buat rekan-rekan yang punya kegiatan di lokal terkait QGIS silahkan share disini juga yaa K...",
+      "Check out this Meetup with Journocoders Indonesia http://meetu.ps/e/HkHgN/L2GFY/d Mantap ini Seru ni eventnya, keren Widih kereeen",
+      "selamat sore, ijin bertanya master sekalian, saya menggenerate file geojson yang diupdate tiap beberapa detik, kemudian menambahkan file tersebut ke sbg salah satu layer di QGIS da..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset PyQGIS, Scripting & Otomasi Process",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d6",
+    "dateLabel": "Edisi Database Spasial PostgreSQL / PostGIS",
+    "title": "Database Spasial PostgreSQL / PostGIS",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 104 thread diskusi aktif yang berfokus pada Database Spasial PostgreSQL / PostGIS.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "PostGIS",
+      "SQL",
+      "Database"
+    ],
+    "stats": {
+      "messages": 416,
+      "participants": 34,
+      "threads": 104
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Error `Connection Refused` saat hubungkan PostGIS",
+        "cause": "Service PostgreSQL belum berjalan atau port 5432 tertutup firewall",
+        "sol": "Pastikan service PostgreSQL berjalan di Task Manager/Services dan `pg_hba.conf` mengizinkan alamat IP Anda."
+      },
+      {
+        "prob": "Query spasial `ST_Intersects` memakan waktu sangat lama",
+        "cause": "Tabel PostGIS belum memiliki GIST Spatial Index",
+        "sol": "Jalankan query SQL `CREATE INDEX idx_geom ON table_name USING GIST(geom);` di Database Manager."
+      },
+      {
+        "prob": "Gagal simpan edit layer PostGIS dari QGIS",
+        "cause": "User PostgreSQL tidak memiliki hak akses `UPDATE/INSERT` pada tabel/sequence",
+        "sol": "Berikan izin via SQL: `GRANT ALL ON TABLE table_name TO my_user;`."
+      }
+    ],
+    "quotes": [
+      "kalau yg osgeo kemarin hosting videonya dmn ya? disini mase https://media.ccc.de/c/foss4g2019/",
+      "hehe, maksudnya kalau ada video mau dihosting sendiri kira2 pake apa gtu. kalau ribet ya mending di yutub aja Benar juga, perlu dicari ya Pakai ini Pak: https://www.membraneframewo...",
+      "contoh visualisasi dengan qgis https://drive.google.com/a/ugm.ac.id/file/d/15tc9uU7NDetYQZIyuIXNPZKd4X5xqT7T/view?usp=drivesdk Woh pake processing sql jadi simple & cepet ya Pak Da...",
+      "sekedar #Sharing , untuk rekan2 yg berkecimpung di dunia air limbah, mungkin aplikasi QGEP berbasis QGIS ini dapat menjadi referensi https://www.qgis.ch/en/projects/qgep-waste-wate...",
+      "Permisi mas mau nanya. Kira kira kalau kita buat peta data peta di qgis tu bisa di masukkan di mysql gak? Sekedar saran, mending pilih PostGIS saja 😀 Wah baru denger pak saya.. Pos..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Database Spasial PostgreSQL / PostGIS",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d7",
+    "dateLabel": "Edisi WebGIS, QGIS Server & Publisher",
+    "title": "WebGIS, QGIS Server & Publisher",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 147 thread diskusi aktif yang berfokus pada WebGIS, QGIS Server & Publisher.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "WebGIS",
+      "QGIS Server",
+      "WMS/WFS"
+    ],
+    "stats": {
+      "messages": 588,
+      "participants": 49,
+      "threads": 147
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Layanan WMS / WFS di QGIS Server tampil kosong",
+        "cause": "Path file project `.qgs` / `.qgz` pada URL request salah",
+        "sol": "Pastikan parameter `MAP=/path/to/project.qgz` disertakan lengkap pada URL WMS request."
+      },
+      {
+        "prob": "Peta di Lizmap / GeoServer tidak bisa di-zoom",
+        "cause": "Tile matrix set CRS tidak cocok dengan basemap Leaflet",
+        "sol": "Gunakan EPSG:3857 untuk Tile Caching (WMTS/TMS) agar presisi dengan library WebGIS frontend."
+      },
+      {
+        "prob": "CORS Error saat panggil layer GeoJSON via API",
+        "cause": "Header HTTP Access-Control-Allow-Origin belum dikonfigurasi di server web",
+        "sol": "Aktifkan CORS header pada Nginx/Apache web server backend Anda."
+      }
+    ],
+    "quotes": [
+      "ini saran pak, apakah bukan sebaiknya geoserver, GIS analysis, dan Mapstore di pisahkan",
+      "Peta penyebaran corona di seluruh dunia saat ini: 👇 https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html?fbclid=IwAR0PyYEh5Hw_DeVPb9yxeM3lmdY3RucEFrfhbEhkCVLFXvnVPm3wb4U...",
+      "Stacknya seperti ini mas [Anggota Komunitas] stack untuk pembuatan WebGIS ta mas?",
+      "Selamat sore abg dan kakak.. maaf menggangu Saya maunya bertanya dan sekalian ingin berdiskusi. Ini saya sedikit ada ketertarikkan dengan pembuatan Web GIS, dan berniat ingin mempe...",
+      "Maaf minta arahan para suhu, gimana caranya masang wms/wmts link citra resolusi tinggi lapan ya, padahal link tersebut di akses di browser lapan, tp di qgis gagal terus , tks. Haru..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset WebGIS, QGIS Server & Publisher",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d8",
+    "dateLabel": "Edisi Print Layout, Kartografi & Pembuatan Peta",
+    "title": "Print Layout, Kartografi & Pembuatan Peta",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 180 thread diskusi aktif yang berfokus pada Print Layout, Kartografi & Pembuatan Peta.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Print Layout",
+      "Atlas",
+      "Kartografi"
+    ],
+    "stats": {
+      "messages": 720,
+      "participants": 60,
+      "threads": 180
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Output Peta PDF pecah atau teks terpotong",
+        "cause": "Preset DPI export terlalu rendah / font tidak ter-embed",
+        "sol": "Atur Export Resolution minimal 300 DPI di Layout Properties dan centang Always export text as paths."
+      },
+      {
+        "prob": "Atlas Print Layout tidak berganti halaman otomatis",
+        "cause": "Coverage Layer belum dipilih / attribute ID tidak unik",
+        "sol": "Buka panel Atlas Properties, pilih Coverage Layer yang tepat dan tentukan Page Name berdasarkan kolom ID/Nama."
+      },
+      {
+        "prob": "Legenda Peta menampilkan item layer yang tersembunyi",
+        "cause": "Option Only show items inside current atlas feature belum aktif",
+        "sol": "Centang kotak Only show items inside current atlas feature / Show items inside main map pada Legend Properties."
+      }
+    ],
+    "quotes": [
+      "magelang itu legendary kalo terkait qgis memang. khususnya desa sirahan 😄👍 http://docs.inasafe.org/en/training/old-training/intermediate/qgis-inasafe/402-preparing-data-and-keyword...",
+      "Baru dipikir aja tiba2 dah keluar print2annya Mungkin beliau punya teknologi semacam bluetooth, yang mampu menyambungkan blok memori di otak langsung ke printer, Mas. 😬 Zamannya ni...",
+      "Ass...para master izin bertanya...bagaimana carax menggunakan simbologi juknis penggambaran peta yg disediakan oleh kementerian kehutanan di Qgis...krn simbologinya hanya bisa digu...",
+      "Beberapa tips-trick di QGIS terutama ttg labelling.. Mgkn byk yg sudah tau. Kalau saya sih byk yg baru tau.. ☺️ https://twitter.com/northroadgeo/status/1201036141761187840?s=19 Mak...",
+      "Mas [Anggota Komunitas] apakah qgis bisa diinstall untuk skala perusahaan? Mohon infonya juga kalau tidak boleh apakah ada statement di"
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Print Layout, Kartografi & Pembuatan Peta",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d9",
+    "dateLabel": "Edisi Instalasi, Hardware & Troubleshooting Crash",
+    "title": "Instalasi, Hardware & Troubleshooting Crash",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 418 thread diskusi aktif yang berfokus pada Instalasi, Hardware & Troubleshooting Crash.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Instalasi",
+      "Crash Dump",
+      "OSGeo4W"
+    ],
+    "stats": {
+      "messages": 1672,
+      "participants": 139,
+      "threads": 418
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "QGIS crash tiba-tiba saat buka file besar (Crash Dump)",
+        "cause": "RAM menipis atau GPU Hardware Acceleration bentrok dengan driver",
+        "sol": "Matikan Render in parallelizing di Settings -> Options -> Rendering dan alokasikan Virtual Memory OS."
+      },
+      {
+        "prob": "Error `GDAL_DATA environment variable not set`",
+        "cause": "Instalasi OSGeo4W bentrok dengan versi Python external (Anaconda/PostGIS)",
+        "sol": "Gunakan shortcut `OSGeo4W Setup` untuk repair atau hapus environment variable Python external yang konflik."
+      },
+      {
+        "prob": "Gagal update QGIS ke versi LTR terbaru",
+        "cause": "File instalasi lama masih mengunci `.dll` di folder C:\\Program Files",
+        "sol": "Lakukan uninstall versi lama secara bersih, reboot komputer, lalu jalankan installer QGIS Standalone LTR."
+      }
+    ],
+    "quotes": [
+      "Bagi rekan-rekan yang baru bergabung, ada salah satu bentuk kontribusi ke QGIS yaitu dengan cara ikut menerjemahkan : QGIS Desktop QGIS Documentations QGIS Web ke Bahasa Indonesia ...",
+      "problem:",
+      "https://north-road.com/slyr/ konverter dari ESRI LYR dan MXD ke QGIS 1000 euro, muahal banget Kayaknya ganti metode fundingnya, dari crowd funding/campaign, ke early user license U...",
+      "yang pakai Conda-Package manager, bisa pakai QGIS juga https://anaconda.org/conda-forge/qgis #BeritaQGIS Pernah nyobain, gagal. Sama ga jelasnya dengan nginstall qgis pake homebrew...",
+      "Maaf mau nanya, OSGEO ID itu apa ya? Maaf blum tau hehe... Acaranya meet up aja apa gmna? Atau kya pelatihan gtu? silahkan berkunjung dulu ke osgeo.org ya mas. Disitu ada penjelasa..."
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Instalasi, Hardware & Troubleshooting Crash",
+        "type": "Dataset"
+      }
+    ]
+  },
+  {
+    "id": "d10",
+    "dateLabel": "Edisi Topik Umum & Best Practices Komunitas",
+    "title": "Topik Umum & Best Practices Komunitas",
+    "excerpt": "Komunitas QGIS Indonesia mendokumentasikan 3435 thread diskusi aktif yang berfokus pada Topik Umum & Best Practices Komunitas.  Topik ini mencakup alur kerja penting, penanganan kendala teknis, serta praktik terbaik yang telah dibahas dan diuji oleh para anggota komunitas dari tahun 2019 hingga 2026.",
+    "topics": [
+      "Workflow",
+      "QGIS LTR",
+      "Komunitas"
+    ],
+    "stats": {
+      "messages": 13740,
+      "participants": 1145,
+      "threads": 3435
+    },
+    "contributors": [
+      {
+        "name": "Anggota Komunitas",
+        "initials": "AK"
+      },
+      {
+        "name": "Kontributor QGISID",
+        "initials": "QI"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "prob": "Pilih QGIS Standalone atau OSGeo4W Installer?",
+        "cause": "Kebingungan memilih installer QGIS yang tepat di Windows",
+        "sol": "Gunakan Standalone Installer LTR untuk pengguna umum. Gunakan OSGeo4W jika membutuhkan paket lanjutan (GRASS, SAGA, GDAL CLI)."
+      },
+      {
+        "prob": "Bagaimana cara membuat backup profil QGIS?",
+        "cause": "Khawatir kehilangan konfigurasi plugin & style saat upgrade QGIS",
+        "sol": "Buka menu Settings -> User Profiles -> Open Active Profile Folder, lalu salin folder `default` ke lokasi cadangan."
+      },
+      {
+        "prob": "Format file geospasial terbaik untuk kolaborasi tim?",
+        "cause": "Kerap terjadi loss data saat kirim file SHP antar anggota tim",
+        "sol": "Gunakan GeoPackage (.gpkg) karena menyimpan multiple layer, tabel atribut, dan styling peta dalam 1 file tunggal."
+      }
+    ],
+    "quotes": [
+      "salam kenal semuanya 😊 Salam kenal juga :)",
+      "apakah yang belum boleh bergabung? semua boleh bergabung kok, yang ngisi kemarin hanya untuk melihat minat saja... grup ini terbuka untuk siapa saja :)",
+      "Presentasi mengenai State of #QGIS / Behind the scene di FOSS4G 2019 kemarin. Bisa dibaca-baca untuk tahu apa dan bagaimana QGIS dan hal-hal di balik QGIS. https://docs.google.com/...",
+      "permisi mas/mbak admin, boleh share lowker ndak disini? Boleh asalkan terkait QGIS ya, bisa dikasi hashtag #lowker #jobs Kalau requirements-nya GIS secara umum bisa juga di post di...",
+      "Halo kang iwan [Anggota Komunitas] pripun kabare. Kabar baik Abdi"
+    ],
+    "resources": [
+      {
+        "label": "Dokumentasi Resmi QGIS",
+        "type": "Dokumen"
+      },
+      {
+        "label": "Dataset Topik Umum & Best Practices Komunitas",
+        "type": "Dataset"
+      }
+    ]
+  }
+];
+  topicsMaster = ["CRS & Proyeksi Koordinat Spasial", "Pengolahan Data Vektor & Tabel Atribut", "Pengolahan Data Raster & Penginderaan Jauh", "Plugin & Ekstensi Populer QGIS", "PyQGIS, Scripting & Otomasi Process", "Database Spasial PostgreSQL / PostGIS", "WebGIS, QGIS Server & Publisher", "Print Layout, Kartografi & Pembuatan Peta", "Instalasi, Hardware & Troubleshooting Crash", "Topik Umum & Best Practices Komunitas"];
+  yearlyAnalytics = {
+  "2019": {
+    "year": "2019",
+    "total": 327,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 200,
+        "pct": 61.2
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 29,
+        "pct": 8.9
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 28,
+        "pct": 8.6
+      },
+      {
+        "name": "Plugin & Ekstensi QGIS",
+        "count": 26,
+        "pct": 8.0
+      }
+    ],
+    "highlight": "Awal pembentukan grup Telegram & diskusi seputar Instalasi OSGeo4W vs Standalone serta pengenalan format SHP."
+  },
+  "2020": {
+    "year": "2020",
+    "total": 1955,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 1039,
+        "pct": 53.1
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 210,
+        "pct": 10.7
+      },
+      {
+        "name": "Raster & Penginderaan Jauh",
+        "count": 164,
+        "pct": 8.4
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 141,
+        "pct": 7.2
+      }
+    ],
+    "highlight": "Puncak aktivitas GIS era kerja remote: Lonjakan masif diskusi Pengolahan Vektor/Tabel Atribut & Raster Penginderaan Jauh."
+  },
+  "2021": {
+    "year": "2021",
+    "total": 1882,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 1010,
+        "pct": 53.7
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 224,
+        "pct": 11.9
+      },
+      {
+        "name": "Raster & Penginderaan Jauh",
+        "count": 160,
+        "pct": 8.5
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 125,
+        "pct": 6.6
+      }
+    ],
+    "highlight": "Pendalaman analisis spasial: Fokus pada kalkulasi geometri poligon, interpolasi DEM, dan database PostGIS."
+  },
+  "2022": {
+    "year": "2022",
+    "total": 820,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 453,
+        "pct": 55.2
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 103,
+        "pct": 12.6
+      },
+      {
+        "name": "Raster & Penginderaan Jauh",
+        "count": 65,
+        "pct": 7.9
+      },
+      {
+        "name": "Plugin & Ekstensi QGIS",
+        "count": 53,
+        "pct": 6.5
+      }
+    ],
+    "highlight": "Migrasi besar-besaran dari Shapefile (.shp) ke GeoPackage (.gpkg) & otomatisasi atlas Print Layout."
+  },
+  "2023": {
+    "year": "2023",
+    "total": 665,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 344,
+        "pct": 51.7
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 77,
+        "pct": 11.6
+      },
+      {
+        "name": "Raster & Penginderaan Jauh",
+        "count": 51,
+        "pct": 7.7
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 42,
+        "pct": 6.3
+      }
+    ],
+    "highlight": "Standardisasi versi QGIS LTR di lingkungan kerja produksi & integrasi PyQGIS scripting."
+  },
+  "2024": {
+    "year": "2024",
+    "total": 355,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 178,
+        "pct": 50.1
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 39,
+        "pct": 11.0
+      },
+      {
+        "name": "Raster & Penginderaan Jauh",
+        "count": 34,
+        "pct": 9.6
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 27,
+        "pct": 7.6
+      }
+    ],
+    "highlight": "Penggunaan plugin modern (QuickOSM, SCP, QuickMapServices) & efisiensi geoprocessing."
+  },
+  "2025": {
+    "year": "2025",
+    "total": 305,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 195,
+        "pct": 63.9
+      },
+      {
+        "name": "Vektor & Tabel Atribut",
+        "count": 36,
+        "pct": 11.8
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 15,
+        "pct": 4.9
+      },
+      {
+        "name": "CRS & Proyeksi Koordinat",
+        "count": 14,
+        "pct": 4.6
+      }
+    ],
+    "highlight": "Presisi Sistem Referensi Koordinat (CRS UTM vs WGS84) & manajemen database spasial terpusat."
+  },
+  "2026": {
+    "year": "2026",
+    "total": 23,
+    "topics": [
+      {
+        "name": "Diskusi Umum",
+        "count": 16,
+        "pct": 69.6
+      },
+      {
+        "name": "Raster & Penginderaan Jauh",
+        "count": 4,
+        "pct": 17.4
+      },
+      {
+        "name": "Plugin & Ekstensi QGIS",
+        "count": 2,
+        "pct": 8.7
+      },
+      {
+        "name": "Instalasi, Hardware & Troubleshooting System",
+        "count": 1,
+        "pct": 4.3
+      }
+    ],
+    "highlight": "Penggunaan versi QGIS 3.40+ LTR & penerapan alur kerja GIS otomatis berbasis AI/IndoBERT."
+  }
+};
+
+  state = {
+    screen: this.props.defaultScreen || 'home',
+    activeDigestId: 'd10',
+    topicFilter: null,
+    searchQuery: '',
+    selectedYear: '2020',
+    tsFilter: null,
+    tsQuery: '',
+  };
+
+  goHome = () => this.setState({ screen: 'home' });
+  openArchive = () => this.setState({ screen: 'list', topicFilter: null });
+  goList = (topic) => this.setState({ screen: 'list', topicFilter: topic });
+  goDetail = (id) => this.setState({ screen: 'detail', activeDigestId: id });
+  setTopicFilter = (topic) => this.setState(s => ({ topicFilter: s.topicFilter === topic ? null : topic }));
+  onSearchChange = (e) => this.setState({ searchQuery: e.target.value });
+  selectYear = (yr) => this.setState({ selectedYear: yr });
+  setTsFilter = (cat) => this.setState(s => ({ tsFilter: s.tsFilter === cat ? null : cat }));
+  onTsQueryChange = (e) => this.setState({ tsQuery: e.target.value });
+
+  renderVals() {
+    const { screen, activeDigestId, topicFilter, searchQuery, selectedYear, tsFilter, tsQuery } = this.state;
+    const digestsView = this.digests.map(d => ({ ...d, open: () => this.goDetail(d.id) }));
+
+    const q = searchQuery.trim().toLowerCase();
+    // A digest's `topics` are short tags ("UTM", "WGS84"); its category is its title.
+    // Match on either so the chips and the tiles actually return results.
+    const inCategory = (d, cat) => d.title === cat || d.topics.includes(cat);
+    const matchesQuery = (d, term) => !term || d.title.toLowerCase().includes(term)
+      || d.excerpt.toLowerCase().includes(term)
+      || d.topics.some(t => t.toLowerCase().includes(term))
+      || d.troubleshooting.some(tb => (tb.prob + ' ' + tb.cause + ' ' + tb.sol).toLowerCase().includes(term));
+    const filteredDigests = digestsView.filter(d => (!topicFilter || inCategory(d, topicFilter)) && matchesQuery(d, q));
+
+    const topicChips = [{ name: 'Semua', active: !topicFilter, inactive: !!topicFilter, select: () => this.setState({ topicFilter: null }) }]
+      .concat(this.topicsMaster.map(t => ({ name: t, active: topicFilter === t, inactive: topicFilter !== t, select: () => this.setTopicFilter(t) })));
+
+    const threadsOf = (cat) => this.digests.filter(d => inCategory(d, cat)).reduce((a, d) => a + d.stats.threads, 0);
+
+    const topicTiles = this.topicsMaster.map(t => ({
+      name: t,
+      count: threadsOf(t).toLocaleString('id-ID'),
+      tags: (this.digests.find(d => d.title === t) || { topics: [] }).topics.join(' · '),
+      open: () => this.goList(t),
+    }));
+
+    const activeDigest = digestsView.find(d => d.id === activeDigestId) || digestsView[0];
+    const archiveLayout = this.props.archiveLayout || 'list';
+
+    // Yearly Analytics view model
+    const years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+    const yearList = years.map(yr => ({
+      year: yr,
+      activeCls: selectedYear === yr ? 'active' : '',
+      select: () => this.selectYear(yr)
+    }));
+
+    const activeYearData = this.yearlyAnalytics[selectedYear] || { year: selectedYear, total: 0, topics: [], highlight: '' };
+
+    // ---- MASTER TROUBLESHOOTING: every problem from every category, in one table ----
+    const allIssues = this.digests.flatMap(d => d.troubleshooting.map(tb => ({
+      cat: d.title,
+      catShort: d.title.length > 34 ? d.title.slice(0, 32) + '…' : d.title,
+      digestId: d.id,
+      prob: tb.prob,
+      cause: tb.cause,
+      sol: tb.sol,
+    })));
+    const tq = tsQuery.trim().toLowerCase();
+    const tsRows = allIssues
+      .filter(r => (!tsFilter || r.cat === tsFilter))
+      .filter(r => !tq || (r.prob + ' ' + r.cause + ' ' + r.sol + ' ' + r.cat).toLowerCase().includes(tq))
+      .map(r => ({ ...r, open: () => this.goDetail(r.digestId) }));
+    const tsChips = [{ name: 'Semua Kategori', count: allIssues.length, active: !tsFilter, inactive: !!tsFilter, select: () => this.setState({ tsFilter: null }) }]
+      .concat(this.topicsMaster.map(t => ({
+        name: t,
+        count: allIssues.filter(r => r.cat === t).length,
+        active: tsFilter === t,
+        inactive: tsFilter !== t,
+        select: () => this.setTsFilter(t),
+      })));
+
+    return {
+      isHome: screen === 'home',
+      isList: screen === 'list',
+      isDetail: screen === 'detail',
+      navHomeActive: screen === 'home',
+      navHomeInactive: screen !== 'home',
+      navListActive: screen === 'list' || screen === 'detail',
+      navListInactive: screen === 'home',
+      showHeroStats: this.props.showHeroStats !== false,
+      goHome: this.goHome,
+      openArchive: this.openArchive,
+      featured: digestsView[9] || digestsView[0],
+      recent: digestsView.slice(0, 3),
+      topicTiles,
+      topicChips,
+      filteredDigests,
+      filteredCount: filteredDigests.length,
+      noResults: filteredDigests.length === 0,
+      searchQuery,
+      onSearchChange: this.onSearchChange,
+      archiveContainerStyle: archiveLayout === 'grid'
+        ? { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }
+        : { display: 'flex', flexDirection: 'column', gap: '16px' },
+      activeDigest,
+      yearList,
+      activeYearData,
+      yearTopicsShown: activeYearData.topics.length,
+      tsRows,
+      tsChips,
+      tsQuery,
+      onTsQueryChange: this.onTsQueryChange,
+      tsTotal: allIssues.length,
+      tsShown: tsRows.length,
+      tsEmpty: tsRows.length === 0,
+      tsCatCount: this.topicsMaster.length,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
