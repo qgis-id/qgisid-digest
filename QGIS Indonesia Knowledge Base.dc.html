@@ -46,25 +46,87 @@
   .indobert-badge { background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
   .year-btn { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid rgba(0,32,51,.15); background: #fff; color: #45534d; cursor: pointer; transition: all .2s; }
   .year-btn.active { background: #3f6f22; color: #fff; border-color: #3f6f22; }
+
+  /* RESPONSIVE NAVBAR STYLES */
+  .site-header {
+    height: 76px;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,32,51,.08);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .desktop-nav { display: flex; align-items: center; gap: 32px; }
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .mobile-toggle-btn {
+    display: none;
+    background: none;
+    border: 1px solid rgba(0,32,51,.15);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #002033;
+  }
+  .mobile-menu-drawer {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,32,51,.12);
+    padding: 20px 24px;
+    position: sticky;
+    top: 76px;
+    z-index: 49;
+    box-shadow: 0 12px 24px rgba(0,32,51,.08);
+  }
+
+  /* MEDIA QUERIES FOR TABLETS & MOBILE */
+  @media (max-width: 860px) {
+    .site-header { padding: 0 20px; height: 68px; }
+    .desktop-nav, .header-actions { display: none !important; }
+    .mobile-toggle-btn { display: flex !important; align-items: center; justify-content: center; }
+    .brand-sub { display: none !important; }
+
+    .hero-section { padding: 56px 20px 48px !important; }
+    .hero-title { font-size: 32px !important; }
+    .hero-stats-box {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+      padding: 24px !important;
+      margin: -24px 20px 0 !important;
+    }
+    .content-container { padding-left: 20px !important; padding-right: 20px !important; }
+    .grid-3col { grid-template-columns: 1fr !important; }
+    .featured-card { flex-direction: column !important; }
+    .featured-side { border-left: none !important; border-top: 1px solid rgba(0,32,51,.06) !important; }
+    .detail-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .archive-header { flex-direction: column !alignment: flex-start !important; gap: 16px !important; }
+    .search-input { width: 100% !important; }
+  }
 </style>
 </helmet>
 
 <div style="min-height:100vh;color:#16232b">
 
-  <!-- HEADER WITH INDOBERT CREDIT -->
-  <header style="height:76px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:#ffffff;border-bottom:1px solid rgba(0,32,51,.08);position:sticky;top:0;z-index:50">
-    <a href="https://qgis-id.github.io/" style="display:flex;align-items:center;gap:14px;text-decoration:none">
-      <img src="./qgis-logo.svg" alt="QGIS Logo" style="height:38px;width:auto;object-fit:contain;flex:none" />
+  <!-- RESPONSIVE HEADER -->
+  <header class="site-header">
+    <a href="https://qgis-id.github.io/" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+      <img src="./qgis-logo.svg" alt="QGIS Logo" style="height:36px;width:auto;object-fit:contain;flex:none" />
       <div style="display:flex;flex-direction:column;line-height:1.2">
         <div style="display:flex;align-items:center;gap:6px">
           <span style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:#002033">QGIS Indonesia</span>
           <span class="indobert-badge">IndoBERT Powered</span>
         </div>
-        <span style="font-size:10px;letter-spacing:.5px;color:#75857d;text-transform:uppercase">Komunitas Pengguna · KB Digest</span>
+        <span class="brand-sub" style="font-size:10px;letter-spacing:.5px;color:#75857d;text-transform:uppercase">Komunitas Pengguna · KB Digest</span>
       </div>
     </a>
 
-    <nav style="display:flex;align-items:center;gap:32px">
+    <!-- DESKTOP NAV LINKS -->
+    <nav class="desktop-nav">
       <sc-if value="{{navHomeActive}}" hint-placeholder-val="{{ true }}">
         <span style="font-size:14px;font-weight:700;color:#002033;border-bottom:2px solid #4a7d29;padding-bottom:6px;cursor:pointer" onClick="{{ goHome }}">Beranda</span>
       </sc-if>
@@ -79,21 +141,46 @@
       </sc-if>
     </nav>
 
-    <div style="display:flex;align-items:center;gap:12px">
+    <!-- DESKTOP ACTIONS -->
+    <div class="header-actions">
       <button style="background:none;border:1px solid rgba(0,32,51,.15);color:#002033;padding:9px 16px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer" onClick="{{ openArchive }}">Cari Digest</button>
       <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="background:#002033;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">Gabung Telegram</a>
     </div>
+
+    <!-- MOBILE MENU TOGGLE BUTTON -->
+    <button class="mobile-toggle-btn" onClick="{{ toggleMobileMenu }}" aria-label="Toggle Navigation Menu">
+      <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </sc-if>
+      <sc-if value="{{ mobileMenuClosed }}" hint-placeholder-val="{{ true }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </sc-if>
+    </button>
   </header>
+
+  <!-- MOBILE MENU DROPDOWN DRAWER -->
+  <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="mobile-menu-drawer open">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:16px;font-weight:700;color:#002033;padding:8px 0;border-bottom:1px solid rgba(0,32,51,.06);cursor:pointer" onClick="{{ goHomeAndCloseMenu }}">Beranda</span>
+        <span style="font-size:16px;font-weight:700;color:#002033;padding:8px 0;border-bottom:1px solid rgba(0,32,51,.06);cursor:pointer" onClick="{{ openArchiveAndCloseMenu }}">Arsip Digest</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <button style="background:#fff;border:1px solid rgba(0,32,51,.15);color:#002033;padding:12px;border-radius:8px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;text-align:center" onClick="{{ openArchiveAndCloseMenu }}">Cari Digest</button>
+        <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="background:#002033;color:#fff;padding:12px;border-radius:8px;font-size:14px;font-weight:600;text-align:center" onClick="{{ closeMobileMenu }}">Gabung Telegram QGISID</a>
+      </div>
+    </div>
+  </sc-if>
 
   <!-- BERANDA -->
   <sc-if value="{{isHome}}" hint-placeholder-val="{{ true }}">
   <div data-screen-label="Beranda">
 
     <!-- HERO WITH INDOBERT BANNER -->
-    <section style="background:linear-gradient(130deg,#3f6f22 0%,#002033 60%);background-image:linear-gradient(130deg,#3f6f22 0%,#002033 60%),repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0px, rgba(255,255,255,.035) 1px, transparent 1px, transparent 26px);padding:96px 48px 72px">
+    <section class="hero-section" style="background:linear-gradient(130deg,#3f6f22 0%,#002033 60%);background-image:linear-gradient(130deg,#3f6f22 0%,#002033 60%),repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0px, rgba(255,255,255,.035) 1px, transparent 1px, transparent 26px);padding:96px 48px 72px">
       <div style="max-width:760px;margin:0 auto 0 auto">
         <span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:1.5px;color:#f0e64a;text-transform:uppercase"><span style="width:7px;height:7px;border-radius:50%;background:#f0e64a;display:inline-block"></span>Digest Komunitas QGIS Indonesia</span>
-        <h1 style="font-family:Manrope,sans-serif;font-weight:800;font-size:46px;line-height:1.15;color:#fff;margin:16px 0">Rangkuman Pengetahuan Komunitas QGIS Indonesia (2019–2026)</h1>
+        <h1 class="hero-title" style="font-family:Manrope,sans-serif;font-weight:800;font-size:46px;line-height:1.15;color:#fff;margin:16px 0">Rangkuman Pengetahuan Komunitas QGIS Indonesia (2019–2026)</h1>
         <p style="font-size:17px;line-height:1.65;color:rgba(255,255,255,.78);max-width:640px;margin:0">Disintesis dari 26.475 pesan Telegram komunitas menggunakan IndoBERT &amp; AI untuk klasifikasi domain, analitik tren tahunan, dan solusi teknis GIS terbaik.</p>
 
         <!-- INDOBERT CREDIT BOX -->
@@ -104,7 +191,7 @@
           </div>
         </div>
 
-        <div style="display:flex;gap:16px;margin-top:28px">
+        <div style="display:flex;gap:16px;margin-top:28px;flex-wrap:wrap">
           <button style="background:#93b023;color:#002033;border:none;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer" onClick="{{ openArchive }}">Yuk, Lihat Arsip Digest →</button>
           <a href="https://t.me/qgisindonesia" target="_blank" rel="noopener noreferrer" style="border:1px solid rgba(255,255,255,.4);color:#fff;padding:14px 26px;border-radius:8px;font-size:15px;font-weight:600">Gabung Ngobrol di Telegram</a>
         </div>
@@ -113,7 +200,7 @@
 
     <!-- HERO STATS -->
     <sc-if value="{{showHeroStats}}" hint-placeholder-val="{{ true }}">
-    <div style="max-width:1100px;margin:-40px auto 0;background:#fff;border-radius:16px;box-shadow:0 24px 48px rgba(0,32,51,.14);padding:32px 40px;display:flex;justify-content:space-between;position:relative;z-index:2">
+    <div class="hero-stats-box" style="max-width:1100px;margin:-40px auto 0;background:#fff;border-radius:16px;box-shadow:0 24px 48px rgba(0,32,51,.14);padding:32px 40px;display:grid;grid-template-columns:repeat(4, 1fr);gap:24px;position:relative;z-index:2">
       <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">26.475</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Total Pesan Parsed</div></div>
       <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">6.332</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Thread IndoBERT</div></div>
       <div><div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:#002033">2019–2026</div><div style="font-size:12px;color:#75857d;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Rentang Tahun Analitik</div></div>
@@ -122,7 +209,7 @@
     </sc-if>
 
     <!-- 📊 SECTION ANALITIK TREN TAHUNAN (2019 - 2026) -->
-    <section style="max-width:1100px;margin:0 auto;padding:88px 48px 24px">
+    <section class="content-container" style="max-width:1100px;margin:0 auto;padding:88px 48px 24px">
       <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;padding:36px;box-shadow:0 8px 24px rgba(0,32,51,.05)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
           <div>
@@ -163,12 +250,12 @@
     </section>
 
     <!-- DIGEST UTAMA -->
-    <section style="max-width:1100px;margin:0 auto;padding:24px 48px 24px">
+    <section class="content-container" style="max-width:1100px;margin:0 auto;padding:24px 48px 24px">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px">
         <span style="font-size:13px;font-weight:700;letter-spacing:1px;color:#4a7d29;text-transform:uppercase">Digest Utama</span>
         <span style="font-size:13px;color:#75857d">{{ featured.dateLabel }}</span>
       </div>
-      <div style="display:flex;background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,32,51,.05)">
+      <div class="featured-card" style="display:flex;background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,32,51,.05)">
         <div style="flex:1 1 60%;padding:40px">
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
             <sc-for list="{{ featured.topics }}" as="t" hint-placeholder-count="3">
@@ -182,7 +269,7 @@
           </div>
           <button style="background:#3f6f22;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer" onClick="{{ featured.open }}">Baca Rangkumannya →</button>
         </div>
-        <div style="flex:1 1 40%;background:#f5f7f0;border-left:1px solid rgba(0,32,51,.06);padding:40px">
+        <div class="featured-side" style="flex:1 1 40%;background:#f5f7f0;border-left:1px solid rgba(0,32,51,.06);padding:40px">
           <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#75857d;text-transform:uppercase;margin-bottom:16px">Kontributor Komunitas</div>
           <sc-for list="{{ featured.contributors }}" as="c" hint-placeholder-count="2">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
@@ -195,10 +282,10 @@
     </section>
 
     <!-- GRID 10 KATEGORI -->
-    <section style="max-width:1100px;margin:0 auto;padding:24px 48px 64px">
+    <section class="content-container" style="max-width:1100px;margin:0 auto;padding:24px 48px 64px">
       <h3 style="font-family:Manrope,sans-serif;font-weight:800;font-size:26px;color:#002033;margin:0 0 6px">Ngobrolin Apa Aja?</h3>
       <p style="font-size:14px;color:#75857d;margin:0 0 28px">Susuri digest berdasarkan 10 domain kategori teknis utama di grup Telegram.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div class="grid-3col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
         <sc-for list="{{ topicTiles }}" as="tp" hint-placeholder-count="6">
           <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-top:4px solid #4a7d29;border-radius:12px;padding:22px;cursor:pointer" onClick="{{ tp.open }}">
             <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:16px;color:#002033;margin-bottom:6px">{{ tp.name }}</div>
@@ -213,14 +300,14 @@
 
   <!-- ARSIP DIGEST LIST -->
   <sc-if value="{{isList}}" hint-placeholder-val="{{ false }}">
-  <div data-screen-label="Arsip Digest" style="max-width:1100px;margin:0 auto;padding:40px 48px 96px">
+  <div data-screen-label="Arsip Digest" class="content-container" style="max-width:1100px;margin:0 auto;padding:40px 48px 96px">
     <div style="font-size:13px;color:#75857d;margin-bottom:18px">
       <a href="#" onClick="{{ goHome }}">Beranda</a> <span style="margin:0 6px">/</span> <span style="color:#002033;font-weight:600">Arsip Digest</span>
     </div>
     <h1 style="font-family:Manrope,sans-serif;font-weight:800;font-size:32px;color:#002033;margin:0 0 6px">Arsip Digest Komunitas</h1>
     <p style="font-size:14px;color:#75857d;margin:0 0 28px">{{ filteredCount }} digest domain siap dibaca</p>
 
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:28px">
+    <div class="archive-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:28px">
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <sc-for list="{{ topicChips }}" as="chip" hint-placeholder-count="7">
           <sc-if value="{{ chip.active }}" hint-placeholder-val="{{ false }}">
@@ -231,7 +318,7 @@
           </sc-if>
         </sc-for>
       </div>
-      <input type="text" placeholder="Cari digest…" value="{{ searchQuery }}" onChange="{{ onSearchChange }}" style="padding:10px 14px;border:1px solid rgba(0,32,51,.15);border-radius:8px;font-size:14px;font-family:inherit;width:240px" />
+      <input type="text" class="search-input" placeholder="Cari digest…" value="{{ searchQuery }}" onChange="{{ onSearchChange }}" style="padding:10px 14px;border:1px solid rgba(0,32,51,.15);border-radius:8px;font-size:14px;font-family:inherit;width:240px" />
     </div>
 
     <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
@@ -257,7 +344,7 @@
 
   <!-- DETAIL SCREEN WITH RICH SECTIONS -->
   <sc-if value="{{isDetail}}" hint-placeholder-val="{{ false }}">
-  <div data-screen-label="Detail Digest" style="max-width:1200px;margin:0 auto;padding:40px 48px 96px">
+  <div data-screen-label="Detail Digest" class="content-container" style="max-width:1200px;margin:0 auto;padding:40px 48px 96px">
     <div style="font-size:13px;color:#75857d;margin-bottom:18px">
       <a href="#" onClick="{{ goHome }}">Beranda</a> <span style="margin:0 6px">/</span> <a href="#" onClick="{{ openArchive }}">Arsip Digest</a> <span style="margin:0 6px">/</span> <span style="color:#002033;font-weight:600">{{ activeDigest.title }}</span>
     </div>
@@ -270,18 +357,18 @@
     <div style="font-size:14px;color:#75857d;margin-bottom:28px">{{ activeDigest.dateLabel }} · {{ activeDigest.stats.threads }} thread terkluster · Data Diskusi 2019–2026</div>
     <div style="height:1px;background:rgba(0,32,51,.1);margin-bottom:32px"></div>
 
-    <div style="display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start">
+    <div class="detail-grid" style="display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start">
       <div>
         <!-- 📌 Section 1: Ringkasan & Gambaran Topik -->
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-left:4px solid #3f6f22;border-radius:12px;padding:24px;margin-bottom:32px shadow:0 4px 12px rgba(0,0,0,.02)">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-left:4px solid #3f6f22;border-radius:12px;padding:24px;margin-bottom:32px">
           <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:10px">📌 Ringkasan &amp; Gambaran Topik</div>
           <p style="font-size:15px;line-height:1.7;color:#4a5a53;margin:0">{{ activeDigest.excerpt }}</p>
         </div>
 
         <!-- 🛠️ Section 2: Masalah Umum & Solusi Teknis (Troubleshooting Table) -->
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;overflow-x:auto shadow:0 4px 12px rgba(0,0,0,.02)">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px;overflow-x:auto">
           <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">🛠️ Masalah Umum &amp; Solusi Teknis (Troubleshooting)</div>
-          <table style="width:100%;border-collapse:collapse;text-align:left;font-size:14px">
+          <table style="width:100%;border-collapse:collapse;text-align:left;font-size:14px;min-width:600px">
             <thead>
               <tr style="background:#eef3e4;color:#3f6f22;border-bottom:2px solid rgba(63,111,34,.2)">
                 <th style="padding:12px 14px;font-weight:700;width:30%">Masalah / Gejala Utama</th>
@@ -302,7 +389,7 @@
         </div>
 
         <!-- 💡 Section 3: Alur Kerja & Best Practices Komunitas -->
-        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px shadow:0 4px 12px rgba(0,0,0,.02)">
+        <div style="background:#fff;border:1px solid rgba(0,32,51,.08);border-radius:12px;padding:24px;margin-bottom:32px">
           <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;color:#002033;margin-bottom:16px">💡 Alur Kerja &amp; Best Practices Komunitas</div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <div style="background:#f5f7f0;border-radius:8px;padding:16px">
@@ -389,18 +476,23 @@ class Component extends DCLogic {
     topicFilter: null,
     searchQuery: '',
     selectedYear: '2020',
+    mobileMenuOpen: false,
   };
 
-  goHome = () => this.setState({ screen: 'home' });
-  openArchive = () => this.setState({ screen: 'list', topicFilter: null });
-  goList = (topic) => this.setState({ screen: 'list', topicFilter: topic });
-  goDetail = (id) => this.setState({ screen: 'detail', activeDigestId: id });
+  goHome = () => this.setState({ screen: 'home', mobileMenuOpen: false });
+  openArchive = () => this.setState({ screen: 'list', topicFilter: null, mobileMenuOpen: false });
+  goHomeAndCloseMenu = () => this.setState({ screen: 'home', mobileMenuOpen: false });
+  openArchiveAndCloseMenu = () => this.setState({ screen: 'list', topicFilter: null, mobileMenuOpen: false });
+  goList = (topic) => this.setState({ screen: 'list', topicFilter: topic, mobileMenuOpen: false });
+  goDetail = (id) => this.setState({ screen: 'detail', activeDigestId: id, mobileMenuOpen: false });
   setTopicFilter = (topic) => this.setState(s => ({ topicFilter: s.topicFilter === topic ? null : topic }));
   onSearchChange = (e) => this.setState({ searchQuery: e.target.value });
   selectYear = (yr) => this.setState({ selectedYear: yr });
+  toggleMobileMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
+  closeMobileMenu = () => this.setState({ mobileMenuOpen: false });
 
   renderVals() {
-    const { screen, activeDigestId, topicFilter, searchQuery, selectedYear } = this.state;
+    const { screen, activeDigestId, topicFilter, searchQuery, selectedYear, mobileMenuOpen } = this.state;
     const digestsView = this.digests.map(d => ({ ...d, open: () => this.goDetail(d.id) }));
 
     const q = searchQuery.trim().toLowerCase();
@@ -442,6 +534,8 @@ class Component extends DCLogic {
       showHeroStats: this.props.showHeroStats !== false,
       goHome: this.goHome,
       openArchive: this.openArchive,
+      goHomeAndCloseMenu: this.goHomeAndCloseMenu,
+      openArchiveAndCloseMenu: this.openArchiveAndCloseMenu,
       featured: digestsView[9] || digestsView[0],
       recent: digestsView.slice(0, 3),
       topicTiles,
@@ -457,6 +551,10 @@ class Component extends DCLogic {
       activeDigest,
       yearList,
       activeYearData,
+      mobileMenuOpen: !!mobileMenuOpen,
+      mobileMenuClosed: !mobileMenuOpen,
+      toggleMobileMenu: this.toggleMobileMenu,
+      closeMobileMenu: this.closeMobileMenu,
     };
   }
 }
