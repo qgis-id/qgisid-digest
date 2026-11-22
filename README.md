@@ -11,9 +11,11 @@ Official web portal and repository for the **QGIS Indonesia Knowledge Base & Dig
 ## Features & Design
 
 - **Official UI Design System**: Built with Google Fonts `Manrope` (Headings) and `Source Sans 3` (Body), styled using QGIS Dark Green (`#4a7d29`) & Navy (`#002033`).
+- **Data Coverage & Horizon**: Reconstructed from 26,475 raw Telegram messages (6,332 discussion threads) spanning **15 Mei 2019** to **10 Februari 2026, 14:27:08**. See [CHANGELOG.md](./CHANGELOG.md) for detailed dataset metrics.
 - **Interactive Year Selector (2019–2026)**: Visual analytics tracking trending GIS topics across 8 years of community activity.
 - **10 QGIS Technical Domains**: Vector processing, Raster/DEM, CRS Projections, PostGIS, PyQGIS, Print Layout Atlas, Plugins, and System Crash Troubleshooting.
 - **100% Anonymized & Filtered**: Complete privacy protection (`[Anggota Komunitas]`) and sensitive content screening.
+- **Mobile Responsive & Social Previews**: Responsive mobile menu drawer and Open Graph preview cards for WhatsApp and Telegram sharing.
 
 ---
 
@@ -22,6 +24,8 @@ Official web portal and repository for the **QGIS Indonesia Knowledge Base & Dig
 - `index.html` — Standalone single-page web portal application.
 - `support.js` — Declarative Web Component runtime.
 - `QGIS Indonesia Knowledge Base.dc.html` — Original UI design template source.
+- `CHANGELOG.md` — Release history and Telegram chat data coverage dates.
+- `SKILL.md` — Hermes agent automation pipeline specification.
 
 ---
 
